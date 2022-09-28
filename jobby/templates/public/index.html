@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+    <html lang="en">
+
+    <head>
+        <meta charset="utf-8" />
+        <title>AnakutJob - Freelance Services for Marketplaces for Induviduals and Businesses </title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="Marketplace for Freelance Business" />
+        <meta name="keywords" content="Freelance job, Online marketplace" />
+        <!-- Bootstrap -->
+        <link href="{{ url_for('static', filename='css/index/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
+        <!-- Icons -->
+        <link href="{{ url_for('static', filename='css/index/materialdesignicons.min.css')}}" rel="stylesheet" type="text/css" />
+        <link rel="stylesheet" href="https://unicons.iconscout.com/release/v3.0.6/css/line.css">
+        <!-- Slider -->
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/index/tiny-slider.css')}}"/>
+        <!-- Main Css -->
+        <link href="{{ url_for('static', filename='css/index/style.min.css')}}" rel="stylesheet" type="text/css" id="theme-opt" />
+        <link href="{{ url_for('static', filename='css/index/default.css')}}" rel="stylesheet" id="color-opt">
+    </head>
+
+    <body>
+
+        {% include 'header-public.html' %}
+
+        <section class="bg-half bg-light d-table w-100" style="padding: 120px 0 90px;">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-md-6 col-12">
+                        <div class="title-heading">
+                            <h1 class="fw-bold mt-2 mb-3">Hire the best freelancers for your need online</h1>
+                            <p class="para-desc text-muted">Whatever your needs, there will be a freelancer to get it done: from web design, mobile app development, logo design and more...</p>
+                            <div class="mt-4 pt-2">
+                                <a href="{{ url_for('posttask.post_task') }}" class="btn btn-primary me-2">Post Project</a>
+                                <a href="{{ url_for('account.signup') }}" class="btn btn-outline-primary">Join Us</a>
+                            </div>
+                        </div>
+                    </div><!--end col-->
+
+                    <div class="col-md-6 mt-4 pt-2 mt-sm-0 pt-sm-0">
+                        <img src="{{ url_for('static', filename='images/brand.svg') }}" class="img-fluid d-block mx-auto" alt="">
+                    </div><!--end col-->
+                </div><!--end row-->
+            </div> <!--end container-->
+        </section>
+
+        <!-- Hero Start -->
+        <section class="bg-half-170 pb-0 bg-light d-table w-100" style="padding: 0;">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-10">
+                        <div class="title-heading text-center mt-4 mt-md-5 pt-md-5">
+                            <div class="alert alert-light alert-pills" role="alert">
+                                <span class="badge rounded-pill bg-success me-1">Start</span>
+                                <span class="content"> Search now !</span>
+                            </div>
+                            <h1 class="heading mb-3">Job Vacancies for <span class="text-primary typewrite" data-period="2000" data-type='[ "Freelancer", "Developer", "Designer", "UX Developer", "ios Developer" ]'> <span class="wrap"></span> </span></h1>
+                            <p class="para-desc mx-auto text-muted">Huge community of designers and developers ready for your project.</p>
+                            <form class="rounded p-4 mt-4 bg-white" method="POST" action="{{ url_for('public.search', where='index') }}">
+                              <input type='hidden' id="csrf_token" name="csrf_token" value="{{ csrf_token() }}"/>
+                                <div class="row text-start">
+                                    <div class="col-lg-5 col-md-4">
+                                        <div class="mb-0">
+                                            <input type="text" class="form-control" placeholder="Keywords" name="keyword">
+                                        </div>
+                                    </div><!--end col-->
+
+                                    <div class="col-lg-7 col-md-8">
+                                        <div class="row align-items-center">
+                                            <div class="col-md-4 mt-4 mt-sm-0">
+                                                <div class="mb-0">
+                                                    <select class="form-control custom-select" name="location" id="location" title="Select Location">
+                                                      <option selected value="">Location</option>
+                                                    </select>
+                                                </div>
+                                            </div><!--end col-->
+
+                                            <div class="col-md-4 mt-4 mt-sm-0">
+                                                <div class="mb-0">
+                                                    <select class="form-control custom-select" name="category">
+                                                        <option selected value="" >Category</option>
+                                                        <option value="1">Programming</option>
+                                                        <option value="2">Writing</option>
+                                                        <option value="3">Graphics Design</option>
+                                                        <option value="4">Digital Marketing</option>
+                                                        <option value="5">Data Science</option>
+                                                        <option value="6">Video & Animation</option>
+                                                        <option value="7">Lifestyle</option>
+                                                        <option value="8">Finance</option>
+                                                        <option value="9">Other</option>
+                                                    </select>
+                                                </div>
+                                            </div><!--end col-->
+
+                                            <div class="col-md-4 mt-4 mt-sm-0">
+                                                <div class="d-grid">
+                                                    <input type="submit" id="search" name="search" class="searchbtn btn btn-primary" value="Search">
+                                                </div>
+                                            </div><!--end col-->
+                                        </div><!--end row-->
+                                    </div> <!---end col-->
+                                </div><!--end row-->
+                            </form>
+                            <p class="text-muted mb-0 mt-4"><span class="text-dark">Keywords :</span> Web Development, Logo Design, Writing, IOS Development, etc...</p>
+                        </div>
+                    </div><!--end col-->
+
+                    <div class="col-12 mt-4 pt-3">
+                        <img src="images/job/home.png" class="img-fluid" alt="">
+                    </div><!--end col-->
+                </div><!--end row-->
+            </div><!--end container-->
+        </section><!--end section-->
+        <!-- Hero End -->
+
+        <!-- Shape Start -->
+        <div class="position-relative">
+            <div class="shape overflow-hidden text-white">
+                <svg viewBox="0 0 2880 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M0 48H1437.5H2880V0H2160C1442.5 52 720 0 720 0H0V48Z" fill="currentColor"></path>
+                </svg>
+            </div>
+        </div>
+        <!--Shape End-->
+
+        <!-- Start -->
+        <section class="section">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-12 text-center">
+                        <div class="section-title mb-4 pb-2">
+                            <h4 class="title mb-4">Popular Categories</h4>
+                            <p class="text-muted para-desc mx-auto mb-0">Start working with <span class="text-primary fw-bold">Jobby</span> that can provide everything you need to generate revenue from online.</p>
+                        </div>
+                    </div><!--end col-->
+                </div><!--end row-->
+
+                <div class="row">
+                    <div class="col-lg-3 col-md-6 col-12 mt-4 pt-2">
+                      <div class="card categories overflow-hidden rounded shadow border-0">
+                        <img src="{{ url_for('static', filename='images/software.jpg')}}" class="img-fluid" style="height: 150px;">
+                        <div class="card-body">
+                            <ul class="list-unstyled d-flex justify-content-between mb-0">
+                                <li><a href="{{ url_for('public.browseTasks', ct='1')}}" class="title h6 text-dark">Programming</a></li>
+                                <li class="h6 mb-0 jobs">15 Jobs</li>
+                            </ul>
+                        </div>
+                      </div>
+                    </div><!--end col-->
+
+                    <div class="col-lg-3 col-md-6 col-12 mt-4 pt-2">
+                        <div class="card categories overflow-hidden rounded shadow border-0">
+                            <img src="{{ url_for('static', filename='images/writing.jpg')}}" class="img-fluid" style="height: 150px;">
+                            <div class="card-body">
+                                <ul class="list-unstyled d-flex justify-content-between mb-0">
+                                    <li><a href="{{ url_for('public.browseTasks', ct='2')}}" class="title h6 text-dark">Writing</a></li>
+                                    <li class="h6 mb-0 jobs">25 Jobs</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div><!--end col-->
+
+                    <div class="col-lg-3 col-md-6 col-12 mt-4 pt-2">
+                        <div class="card categories overflow-hidden rounded shadow border-0">
+                            <img src="{{ url_for('static', filename='images/graphics.png')}}" class="img-fluid" style="height: 150px;">
+                            <div class="card-body">
+                                <ul class="list-unstyled d-flex justify-content-between mb-0">
+                                    <li><a href="{{ url_for('public.browseTasks', ct='3')}}" class="title h6 text-dark">Graphics & Design</a></li>
+                                    <li class="h6 mb-0 jobs">10 Jobs</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div><!--end col-->
+
+                    <div class="col-lg-3 col-md-6 col-12 mt-4 pt-2">
+                        <div class="card categories overflow-hidden rounded shadow border-0">
+                            <img src="{{ url_for('static', filename='images/marketing.png')}}" class="img-fluid" style="height: 150px;">
+                            <div class="card-body">
+                                <ul class="list-unstyled d-flex justify-content-between mb-0">
+                                    <li><a href="{{ url_for('public.browseTasks', ct='4')}}" class="title h6 text-dark">Digital Marketing</a></li>
+                                    <li class="h6 mb-0 jobs">10 Jobs</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div><!--end col-->
+
+                    <div class="col-lg-3 col-md-6 col-12 mt-4 pt-2">
+                        <div class="card categories overflow-hidden rounded shadow border-0">
+                            <img src="{{ url_for('static', filename='images/data.jpeg')}}" class="img-fluid" style="height: 150px;">
+                            <div class="card-body">
+                                <ul class="list-unstyled d-flex justify-content-between mb-0">
+                                    <li><a href="{{ url_for('public.browseTasks', ct='5')}}" class="title h6 text-dark">Data Science</a></li>
+                                    <li class="h6 mb-0 jobs">12 Jobs</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div><!--end col-->
+
+                    <div class="col-lg-3 col-md-6 col-12 mt-4 pt-2">
+                        <div class="card categories overflow-hidden rounded shadow border-0">
+                            <img src="{{ url_for('static', filename='images/animation.jpg')}}" class="img-fluid" style="height: 150px;">
+                            <div class="card-body">
+                                <ul class="list-unstyled d-flex justify-content-between mb-0">
+                                    <li><a href="{{ url_for('public.browseTasks', ct='6')}}" class="title h6 text-dark">Video & Animation</a></li>
+                                    <li class="h6 mb-0 jobs">10 Jobs</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div><!--end col-->
+
+                    <div class="col-lg-3 col-md-6 col-12 mt-4 pt-2">
+                        <div class="card categories overflow-hidden rounded shadow border-0">
+                            <img src="{{ url_for('static', filename='images/lifestyle.jpg')}}" class="img-fluid" style="height: 150px;">
+                            <div class="card-body">
+                                <ul class="list-unstyled d-flex justify-content-between mb-0">
+                                    <li><a href="{{ url_for('public.browseTasks', ct='7')}}" class="title h6 text-dark">Lifestyle</a></li>
+                                    <li class="h6 mb-0 jobs">15 Jobs</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div><!--end col-->
+
+                    <div class="col-lg-3 col-md-6 col-12 mt-4 pt-2">
+                        <div class="card categories overflow-hidden rounded shadow border-0">
+                            <img src="{{ url_for('static', filename='images/finance.jpg')}}" class="img-fluid" style="height: 150px;">
+                            <div class="card-body">
+                                <ul class="list-unstyled d-flex justify-content-between mb-0">
+                                    <li><a href="{{ url_for('public.browseTasks', ct='8')}}" class="title h6 text-dark">Finance</a></li>
+                                    <li class="h6 mb-0 jobs">5 Jobs</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div><!--end col-->
+                </div><!--end row-->
+            </div><!--end container-->
+
+
+        </section><!--end section-->
+        <!-- End -->
+
+        <!-- Shape Start -->
+        <div class="position-relative">
+            <div class="shape overflow-hidden text-light">
+                <svg viewBox="0 0 2880 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M0 48H1437.5H2880V0H2160C1442.5 52 720 0 720 0H0V48Z" fill="currentColor"></path>
+                </svg>
+            </div>
+        </div>
+        <!--Shape End-->
+
+        <!-- Footer Start -->
+        <footer class="footer bg-light">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-4 col-12 mb-0 mb-md-4 pb-0 pb-md-2">
+                        <p class="mt-4 text-muted">Start working with Jobby that can provide everything you need to get paid for your skills. </p>
+                        <ul class="list-unstyled social-icon social mb-0 mt-4">
+                            <li class="list-inline-item"><a href="javascript:void(0)" class="rounded"><i data-feather="facebook" class="fea icon-sm fea-social"></i></a></li>
+                            <li class="list-inline-item"><a href="javascript:void(0)" class="rounded"><i data-feather="instagram" class="fea icon-sm fea-social"></i></a></li>
+                            <li class="list-inline-item"><a href="javascript:void(0)" class="rounded"><i data-feather="twitter" class="fea icon-sm fea-social"></i></a></li>
+                            <li class="list-inline-item"><a href="javascript:void(0)" class="rounded"><i data-feather="linkedin" class="fea icon-sm fea-social"></i></a></li>
+                        </ul><!--end icon-->
+                    </div><!--end col-->
+
+                    <div class="col-lg-2 col-md-4 col-12 mt-4 mt-sm-0 pt-2 pt-sm-0">
+                        <h5 class="text-dark footer-head">Company</h5>
+                        <ul class="list-unstyled footer-list mt-4">
+                            <li><a href="#" class="text-muted"><i class="uil uil-angle-right-b me-1"></i> About us</a></li>
+                            <li><a href="#" class="text-muted"><i class="uil uil-angle-right-b me-1"></i> Services</a></li>
+                            <li><a href="#" class="text-muted"><i class="uil uil-angle-right-b me-1"></i> Team</a></li>
+                            <li><a href="#" class="text-muted"><i class="uil uil-angle-right-b me-1"></i> Careers</a></li>
+                            <li><a href="#" class="text-muted"><i class="uil uil-angle-right-b me-1"></i> Blog</a></li>
+                            <li><a href="#" class="text-muted"><i class="uil uil-angle-right-b me-1"></i> Login</a></li>
+                        </ul>
+                    </div><!--end col-->
+
+                    <div class="col-lg-3 col-md-4 col-12 mt-4 mt-sm-0 pt-2 pt-sm-0">
+                        <h5 class="text-dark footer-head">Usefull Links</h5>
+                        <ul class="list-unstyled footer-list mt-4">
+                            <li><a href="#" class="text-muted"><i class="uil uil-angle-right-b me-1"></i> Terms of Services</a></li>
+                            <li><a href="#" class="text-muted"><i class="uil uil-angle-right-b me-1"></i> Privacy Policy</a></li>
+                            <li><a href="{{ url_for('public.contact')}}" class="text-muted"><i class="uil uil-angle-right-b me-1"></i> Contact Us</a></li>
+                        </ul>
+                    </div><!--end col-->
+
+                    <div class="col-lg-3 col-md-4 col-12 mt-4 mt-sm-0 pt-2 pt-sm-0">
+                        <h5 class="text-dark footer-head">Newsletter</h5>
+                        <p class="mt-4 text-muted">Sign up and receive the latest tips via email.</p>
+                        <form>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="foot-subscribe foot-white mb-3">
+                                        <label class="text-muted form-label">Write your email <span class="text-danger">*</span></label>
+                                        <div class="form-icon position-relative">
+                                            <i data-feather="mail" class="fea icon-sm icons"></i>
+                                            <input type="email" name="email" id="emailsubscribe" class="form-control bg-light border ps-5 rounded" placeholder="Your email : " required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="d-grid">
+                                        <input type="submit" id="submitsubscribe" name="send" class="btn btn-primary" value="Subscribe">
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div><!--end col-->
+                </div><!--end row-->
+            </div><!--end container-->
+        </footer><!--end footer-->
+        <footer class="footer footer-bar">
+            <div class="container text-center">
+                <div class="row align-items-center">
+                    <div class="col-sm-6">
+                        <div class="text-sm-start">
+                            <p class="mb-0">© 2021 AnakutJob. Designed with <i class="mdi mdi-heart text-danger"></i></p>
+                        </div>
+                    </div><!--end col-->
+                </div><!--end row-->
+            </div><!--end container-->
+        </footer><!--end footer-->
+        <!-- Footer End -->
+
+        <!-- Back to top -->
+        <a href="#" onclick="topFunction()" id="back-to-top" class="btn btn-icon btn-primary back-to-top"><i data-feather="arrow-up" class="icons"></i></a>
+        <!-- Back to top -->
+
+        <script src="{{ url_for('static', filename='js/index/bootstrap.bundle.min.js')}}"></script>
+
+        <script src="{{ url_for('static', filename='js/index/tiny-slider.js')}}"></script>
+        <!-- tobii js -->
+        <!-- Icons -->
+        <script src="{{ url_for('static', filename='js/index/feather.min.js')}}"></script>
+        <!-- Main Js -->
+        <script src="{{ url_for('static', filename='js/index/plugins.init.js')}}"></script><!--Note: All init js like tiny slider, counter, countdown, maintenance, lightbox, gallery, swiper slider, aos animation etc.-->
+        <script src="{{ url_for('static', filename='js/index/app.js')}}"></script><!--Note: All important javascript like page loader, menu, sticky menu, menu-toggler, one page menu etc. -->
+        <script src="{{ url_for('static', filename='js/populateSelect.js')}}"></script>
+
+    </body>
+</html>

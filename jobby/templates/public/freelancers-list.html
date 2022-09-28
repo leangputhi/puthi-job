@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+    <html lang="en">
+
+    <head>
+        <meta charset="utf-8" />
+        <title>AnakutJob - Freelance Services for Marketplaces for Induviduals and Businesses </title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="Marketplace for Freelance Business" />
+        <meta name="keywords" content="Freelance job, Online marketplace" />
+        <!-- Bootstrap -->
+        <link href="{{ url_for('static', filename='css/index/bootstrap.min.css')}}" rel="stylesheet" type="text/css" />
+        <!-- Icons -->
+        <link href="{{ url_for('static', filename='css/index/materialdesignicons.min.css')}}" rel="stylesheet" type="text/css" />
+        <link rel="stylesheet" href="https://unicons.iconscout.com/release/v3.0.6/css/line.css">
+        <!-- Slider -->
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/index/tiny-slider.css')}}"/>
+        <!-- Main Css -->
+        <link href="{{ url_for('static', filename='css/index/style.min.css')}}" rel="stylesheet" type="text/css" id="theme-opt" />
+        <link href="{{ url_for('static', filename='css/index/default.css')}}" rel="stylesheet" id="color-opt">
+        <link href="{{ url_for('static', filename='css/index/star.css')}}" rel="stylesheet">
+    </head>
+
+    <body>
+
+        {% include 'header-public.html' %}
+
+        <!-- Shape Start -->
+        <div class="position-relative">
+            <div class="shape overflow-hidden text-white">
+                <svg viewBox="0 0 2880 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M0 48H1437.5H2880V0H2160C1442.5 52 720 0 720 0H0V48Z" fill="currentColor"></path>
+                </svg>
+            </div>
+        </div>
+        <!--Shape End-->
+
+        <!-- Job List Start -->
+        <section class="section" style="margin-top: 30px;">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-4 col-md-6 col-12">
+                      <form method="POST" action="{{ url_for('public.search', where='freelist') }}">
+                        <input type='hidden' id="csrf_token" name="csrf_token" value="{{ csrf_token() }}"/>
+                        <div class="sidebar p-4 rounded shadow">
+                            <!-- SEARCH -->
+                            <div class="widget">
+                              <div class="input-group mb-3 border rounded">
+                                {% if kw %}
+                                  <input type="text" name="free_search" class="form-control border-0" placeholder="Search for Freelancers..." value="{{kw}}">
+                                {% else %}
+                                  <input type="text" name="free_search" class="form-control border-0" placeholder="Search for Freelancers...">
+                                {% endif %}
+                              </div>
+                            </div>
+                            <!-- SEARCH -->
+
+                            <div class="widget">
+                              <div class="input-group mb-3 border rounded">
+                                <select class="form-control custom-select" name="location" id="location" title="Select Location">
+                                  {% if lc %}
+                                    <option selected value="{{lc}}">{{lc}}</option>
+                                  {% else %}
+                                    <option selected value="">Location</option>
+                                  {% endif %}
+                                </select>
+                              </div>
+                            </div>
+
+                            <!-- Categories -->
+                            <div class="widget mb-4 pb-4 border-bottom">
+                                <div class="mt-4 mb-0">
+                                  <select class="form-control custom-select" name="category">
+                                    {% if ct %}
+                                      <option selected value="{{ct}}">{{str_cat}}</option>
+                                    {% else %}
+                                      <option selected value="">Category</option>
+                                    {% endif %}
+                                      <option value="1">Programming</option>
+                                      <option value="2">Writing</option>
+                                      <option value="3">Graphics Design</option>
+                                      <option value="4">Digital Marketing</option>
+                                      <option value="5">Data Science</option>
+                                      <option value="6">Video & Animation</option>
+                                      <option value="7">Lifestyle</option>
+                                      <option value="8">Finance</option>
+                                      <option value="9">Other</option>
+                                  </select>
+                                </div>
+                            </div>
+                            <!-- Categories -->
+
+                            <!-- Posted -->
+                            <div class="widget mb-4 pb-4">
+                                <h5 class="widget-title">Rating Search</h5>
+                                <fieldset class="rating">
+                                    <input type="radio" id="star5" name="rating" value="5" /><label class = "full" for="star5" title="Awesome - 5 stars"></label>
+                                    <input type="radio" id="star4" name="rating" value="4" /><label class = "full" for="star4" title="Pretty good - 4 stars"></label>
+                                    <input type="radio" id="star3" name="rating" value="3" /><label class = "full" for="star3" title="Meh - 3 stars"></label>
+                                    <input type="radio" id="star2" name="rating" value="2" /><label class = "full" for="star2" title="Kinda bad - 2 stars"></label>
+                                    <input type="radio" id="star1" name="rating" value="1" /><label class = "full" for="star1" title="Sucks big time - 1 star"></label>
+                                </fieldset>
+                            </div>
+                            <!-- Posted -->
+
+                            <!-- Job Type -->
+                            <div class="widget">
+                              <h5 class="widget-title">Skills</h5>
+                                <div class="input-group mb-3 border rounded">
+                                   {% if sk %}
+                                      <input type="text" name="skill" class="form-control border-0" placeholder="Search by Skills" value="{{sk}}">
+                                   {% else %}
+                                      <input type="text" name="skill" class="form-control border-0" placeholder="Search by Skills">
+                                   {% endif %}
+                                </div>
+                            </div>
+                            <!-- Job Type -->
+                            <div class="widget">
+                              <div class="d-grid">
+                                  <button type="submit" class="btn btn-outline-primary">Search</button>
+                              </div>
+                            </div>
+                        </div>
+                      </form>
+                    </div><!--end col-->
+
+                    <div class="col-lg-8 col-md-6 col-12 mt-4 mt-sm-0 pt-2 pt-sm-0">
+                        <div class="row">
+                          {% if freelancers.items %}
+                            {% for freelancer in freelancers.items %}
+                              <div class="col-lg-6 col-md-6 col-12">
+                                  <div class="candidate-list card rounded border-0 shadow">
+                                      <div class="card-body">
+                                          <ul class="list-unstyled align-items-center">
+                                              <li class="list-inline-item float-end"><a href="#" class="text-muted like"><i class="mdi mdi-heart h5 mb-0"></i></a></li>
+                                          </ul>
+
+                                          <div class="content text-center">
+                                              <img src="{{ url_for('static', filename='images/'+'') }}" class="avatar avatar-md-md shadow-md rounded-circle" alt="">
+                                              <ul class="list-unstyled mb-1 mt-2">
+                                                {% if freelancer.rating %}
+                                                  {% for i in range(5) %}
+                                                    {% if loop.index <= freelancer.rating %}
+                                                      <li class="list-inline-item"><i class="mdi mdi-star text-warning"></i></li>
+                                                    {% else %}
+                                                      <li class="list-inline-item"><i class="mdi mdi-star-outline text-warning"></i></li>
+                                                    {% endif %}
+                                                  {% endfor %}
+                                                {% else %}
+                                                  <li class="list-inline-item m-1"><a href="#" class="rounded bg-light py-1 px-2 text-muted small">No rating yet</a></li>
+                                                {% endif %}
+                                              </ul>
+                                              <a href="page-job-candidate.html" class="text-dark h5 name">{{ freelancer.get_full_name() }}</a>
+                                              <p class="text-muted my-1">{{ freelancer.tagline }}</p>
+
+                                              <span class="text-muted"><i class="uil uil-location-point h4 mb-0 me-2 text-primary"></i>{{ freelancer.country }}</span>
+
+                                              <ul class="list-unstyled mt-3">
+                                                {% for sk in freelancer.get_all_skills() %}
+                                                  <li class="list-inline-item m-1"><a href="{{ url_for('public.browseFreelancers', tag=sk) }}" class="rounded bg-light py-1 px-2 text-muted small">{{ sk }}</a></li>
+                                                {% endfor %}
+                                              </ul>
+                                              <div class="d-grid">
+                                                  <a href="{{ url_for('public.freelancer', user_id=freelancer.id)}}" class="btn btn-soft-primary">See Profile <i class="uil uil-angle-right-b align-middle"></i></a>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                            {% endfor %}
+                          {% else %}
+                            <div id="message-box">
+                              <div class="error_message">No records found!</div>
+                            </div>
+                          {% endif %}
+                        </div><!--end row-->
+
+                        <div class="col-12" style="margin-top: 20px;">
+                            <ul class="pagination justify-content-center mb-0">
+                              {% if freelancers.has_prev %}
+                                <li class="page-item"><a class="page-link" href="{{ url_for('public.browseFreelancers', page=freelancers.page-1, kw=kw, lc=lc, ct=ct, rt=rt, sk=sk, tag=tag) }}" aria-label="Previous">Prev</a></li>
+                              {% endif %}
+                              {% for page_num in freelancers.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=3) %}
+                                {% if page_num %}
+                                  {% if freelancers.page == page_num %}
+                                    <li class="page-item active"><a class="page-link" href="{{ url_for('public.browseFreelancers', page=page_num, kw=kw, lc=lc, ct=ct, rt=rt, sk=sk, tag=tag) }}">{{ page_num }}</a></li>
+                                  {% else %}
+                                    <li class="page-item"><a class="page-link" href="{{ url_for('public.browseFreelancers', page=page_num, kw=kw, lc=lc, ct=ct, rt=rt, sk=sk, tag=tag) }}">{{ page_num }}</a></li>
+                                  {% endif %}
+                                {% endif %}
+                              {% endfor %}
+                              {% if freelancers.has_next %}
+                                <li class="page-item"><a class="page-link" href="{{ url_for('public.browseFreelancers', page=freelancers.page+1, kw=kw, lc=lc, ct=ct, rt=rt, sk=sk, tag=tag) }}" aria-label="Next">Next</a></li>
+                              {% endif %}
+                            </ul>
+                        </div>
+
+                    </div><!--end col-->
+                </div><!--end row-->
+            </div><!--end container-->
+        </section><!--end section-->
+        <!-- Job List End -->
+
+        {% include 'footer.html' %}
+
+        <!-- Back to top -->
+        <a href="#" onclick="topFunction()" id="back-to-top" class="btn btn-icon btn-primary back-to-top"><i data-feather="arrow-up" class="icons"></i></a>
+        <!-- Back to top -->
+
+        <script src="{{ url_for('static', filename='js/index/bootstrap.bundle.min.js')}}"></script>
+        <script src="{{ url_for('static', filename='js/index/tiny-slider.js')}}"></script>
+        <!-- tobii js -->
+        <!-- Icons -->
+        <script src="{{ url_for('static', filename='js/index/feather.min.js')}}"></script>
+        <!-- Main Js -->
+        <script src="{{ url_for('static', filename='js/index/plugins.init.js')}}"></script><!--Note: All init js like tiny slider, counter, countdown, maintenance, lightbox, gallery, swiper slider, aos animation etc.-->
+        <script src="{{ url_for('static', filename='js/index/app.js')}}"></script><!--Note: All important javascript like page loader, menu, sticky menu, menu-toggler, one page menu etc. -->
+        <script src="{{ url_for('static', filename='js/populateSelect.js')}}"></script>
+
+    </body>
+</html>

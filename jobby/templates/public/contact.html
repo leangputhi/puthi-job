@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+    <html lang="en">
+
+    <head>
+        <meta charset="utf-8" />
+        <title>AnakutJob - Freelance Services for Marketplaces for Induviduals and Businesses </title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="Marketplace for Freelance Business" />
+        <meta name="keywords" content="Freelance job, Online marketplace" />
+        <!-- Bootstrap -->
+        <link href="{{ url_for('static', filename='css/index/bootstrap.min.css')}}" rel="stylesheet" type="text/css" />
+        <!-- Icons -->
+        <link href="{{ url_for('static', filename='css/index/materialdesignicons.min.css')}}" rel="stylesheet" type="text/css" />
+        <link rel="stylesheet" href="https://unicons.iconscout.com/release/v3.0.6/css/line.css">
+        <!-- Slider -->
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/index/tiny-slider.css')}}"/>
+        <!-- Main Css -->
+        <link href="{{ url_for('static', filename='css/index/style.min.css')}}" rel="stylesheet" type="text/css" id="theme-opt" />
+        <link href="{{ url_for('static', filename='css/index/default.css')}}" rel="stylesheet" id="color-opt">
+    </head>
+
+    <body>
+
+        <div class="back-to-home rounded d-none d-sm-block">
+            <a href="/" class="btn btn-icon btn-soft-primary"><i data-feather="home" class="icons"></i></a>
+        </div>
+
+        <!-- Hero Start -->
+        <section class="bg-auth-home d-table w-100">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-7 col-md-6" id="loginimg">
+                        <div class="me-lg-5">
+                            <img src="{{ url_for('static', filename='images/signup.svg')}}" class="img-fluid d-block mx-auto" alt="">
+                        </div>
+                    </div>
+                    <div class="col-lg-5 col-md-6">
+                        {% for message in get_flashed_messages() %}
+                          <div id="message-box">
+                            <div id="success_page">
+                              {{ message }}
+                            </div>
+                          </div>
+                        {% endfor %}
+                        <div class="card shadow rounded border-0">
+                            <div class="card-body">
+                                <h4 class="card-title text-center">Contact</h4>
+                                <form class="login-form mt-4" action="{{ url_for('public.contact') }}" method="post">
+                                  <input type='hidden' name="csrf_token" value="{{ csrf_token() }}"/>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label class="form-label">Name <span class="text-danger">*</span></label>
+                                                <div class="form-icon position-relative">
+                                                    <i data-feather="user" class="fea icon-sm icons"></i>
+                                                    <input type="text" class="form-control ps-5" placeholder="Name" name="name" required maxlength="50" minlength='3'>
+                                                </div>
+                                            </div>
+                                        </div><!--end col-->
+
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label class="form-label">Email <span class="text-danger">*</span></label>
+                                                <div class="form-icon position-relative">
+                                                  <i data-feather="mail" class="fea icon-sm icons"></i>
+                                                  <input type="email" class="form-control ps-5" placeholder="Email" name="email" required maxlength="100">
+                                                </div>
+                                            </div>
+                                        </div><!--end col-->
+
+                                        <div class="col-12">
+                                            <div class="mb-3">
+                                                <label class="form-label">Subject</label>
+                                                <div class="form-icon position-relative">
+                                                    <i data-feather="book" class="fea icon-sm icons"></i>
+                                                    <input name="subject" class="form-control ps-5" placeholder="subject :" required maxlength="100">
+                                                    <input name="honey"  class="form-control ps-5" style="display: none;">
+                                                </div>
+                                            </div>
+                                        </div><!--end col-->
+
+
+                                        <div class="col-12">
+                                            <div class="mb-3">
+                                                <label class="form-label">Message <span class="text-danger">*</span></label>
+                                                <div class="form-icon position-relative">
+                                                    <i data-feather="message-circle" class="fea icon-sm icons clearfix"></i>
+                                                    <textarea name="comment" rows="4" class="form-control ps-5" placeholder="Message :" required maxlength="1000"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12">
+                                            <div class="d-grid">
+                                                <button type="submit" class="btn btn-primary">Send</button>
+                                            </div>
+                                        </div><!--end col-->
+                                    </div><!--end row-->
+                                </form>
+                            </div>
+                        </div>
+                    </div> <!--end col-->
+                </div><!--end row-->
+            </div> <!--end container-->
+        </section><!--end section-->
+        <!-- Hero End -->
+
+        <script src="{{ url_for('static', filename='js/index/bootstrap.bundle.min.js')}}"></script>
+        <script src="{{ url_for('static', filename='js/index/tiny-slider.js')}}"></script>
+        <!-- tobii js -->
+        <!-- Icons -->
+        <script src="{{ url_for('static', filename='js/index/feather.min.js')}}"></script>
+        <!-- Main Js -->
+        <script src="{{ url_for('static', filename='js/index/plugins.init.js')}}"></script><!--Note: All init js like tiny slider, counter, countdown, maintenance, lightbox, gallery, swiper slider, aos animation etc.-->
+        <script src="{{ url_for('static', filename='js/index/app.js')}}"></script><!--Note: All important javascript like page loader, menu, sticky menu, menu-toggler, one page menu etc. -->
+    </body>
+</html>

@@ -1,0 +1,263 @@
+<header id="header-container" class="fullwidth dashboard-header not-sticky">
+
+	<!-- Header -->
+	<div id="header">
+		<div class="container">
+
+			<!-- Left Side Content -->
+			<div class="left-side">
+
+				<!-- Logo -->
+				<div id="logo">
+					<a href="{{ url_for('public.index') }}"><img src="{{ url_for('static', filename='images/jobby.png')}}" alt=""></a>
+				</div>
+
+				<!-- Main Navigation -->
+				<nav id="navigation">
+					<ul id="responsive">
+						<li><a href="{{ url_for('public.browseTasks') }}"><b>PROJECTS</b></a></li>
+
+						<li><a href="{{ url_for('public.browseFreelancers') }}"><b>FREELANCERS</b></a></li>
+
+						{% if current_user.is_authenticated %}
+							<li><a href="{{ url_for('manage.dashboard') }}"><b>DASHBOARD</b></a></li>
+							<li class="onlyMobile"><a href="{{ url_for('manage.reviews') }}"><b>REVIEWS</b></a></li>
+							<li class="onlyMobile"><a href="{{ url_for('account.logout') }}"><b>LOGOUT</b></a></li>
+						{% endif %}
+						{% if current_user.is_anonymous %}
+							<li class="onlyMobile"><a href="{{ url_for('account.login') }}"><b>LOGIN</b></a></li>
+							<li class="onlyMobile"><a href="{{ url_for('account.signup') }}"><b>SIGN UP</b></a></li>
+						{% endif %}
+					</ul>
+				</nav>
+				<div class="clearfix"></div>
+				<!-- Main Navigation / End -->
+
+			</div>
+			<!-- Left Side Content / End -->
+
+			{% if current_user.is_authenticated %}
+			<!-- Right Side Content / End -->
+			<div class="right-side">
+				<div class="header-widget" id="hideitmobile">
+        	<a href="{{ url_for('posttask.post_task') }}" class="btn btn-post margin-top-20" style="color: white;">Post Project</a>
+        </div>
+
+				<!--  User Notifications -->
+				<div class="header-widget hide-on-mobile">
+
+					<!-- Notifications -->
+					<div class="header-notifications">
+
+						<!-- Trigger -->
+						<div class="header-notifications-trigger">
+								<a href="#"><i class="icon-feather-bell"><span name="badge">{{ current_user.num_not() }}</span></i></a>
+						</div>
+
+						<!-- Dropdown -->
+						<div class="header-notifications-dropdown">
+
+							<div class="header-notifications-headline">
+								<h4>Notifications</h4>
+								<button class="mark-as-read ripple-effect-dark" title="Mark as read" data-tippy-placement="left">
+									<i class="icon-feather-check-square"></i>
+								</button>
+							</div>
+
+							<div class="header-notifications-content">
+								<div class="header-notifications-scroll" data-simplebar>
+									<ul>
+										{% for nt in current_user.new_notifications() %}
+											{% if nt.not_type == 1 %}
+												<li>
+													<a href="{{ url_for('manage.manageBidders', task_id=nt.notedTask.id) }}">
+														<span class="notification-icon"><i class="icon-material-outline-gavel"></i></span>
+														<span class="notification-text">
+															<strong>{{ nt.notification_from }} </strong> bidded for <span class="color">{{ nt.notedTask }}.</span>
+														</span>
+													</a>
+												</li>
+											{% endif %}
+											{% if nt.not_type == 2 %}
+												<li>
+													<a href="#">
+														<span class="notification-icon"><i class="icon-line-awesome-info"></i></span>
+														<span class="notification-text">
+															<strong>Please confirm your email!</strong>
+														</span>
+													</a>
+												</li>
+											{% endif %}
+											{% if nt.not_type == 3 %}
+												<li>
+													<a href="{{ url_for('manage.activeBids') }}">
+														<span class="notification-icon" style="background: green; color: white;"><i class="icon-material-outline-check-circle"></i></span>
+														<span class="notification-text">
+															<strong>congratulations!</strong> You won <span class="color">{{ nt.notedTask }}</span>
+														</span>
+													</a>
+												</li>
+											{% endif %}
+											{% if nt.not_type == 4 %}
+											<li>
+												<a href="{{ url_for('manage.manageOffers') }}">
+													<span class="notification-icon"><i class="icon-material-outline-local-offer"></i></span>
+													<span class="notification-text">
+														<strong>{{ nt.notification_from }} </strong> has proposed you an offer.
+													</span>
+												</a>
+											</li>
+											{% endif %}
+											{% if nt.not_type == 5 %}
+											<li>
+												<a href="{{ url_for('manage.reviews') }}">
+													<span class="notification-icon"><i class="icon-material-outline-rate-review"></i></span>
+													<span class="notification-text">
+														<strong>{{ nt.notification_from }} </strong> has reviewed your <span class="color">{{ nt.notedTask }}</span> work.
+													</span>
+												</a>
+											</li>
+											{% endif %}
+										{% endfor %}
+										{% if current_user.num_not() == 0 %}
+											<li>
+												<a href="#">
+													<span class="notification-icon"><i class="icon-line-awesome-info"></i></span>
+													<span class="notification-text">
+														<strong>You don't have any notification</strong>
+													</span>
+												</a>
+											</li>
+										{% endif %}
+									</ul>
+								</div>
+							</div>
+
+						</div>
+
+					</div>
+
+					<!-- Messages -->
+					<div class="header-notifications">
+						<div class="header-notifications-trigger">
+							<a href="#"><i class="icon-feather-mail"></i><span name="badge">{{ current_user.num_new_messages() }}</span></a>
+						</div>
+
+						<!-- Dropdown -->
+						<div class="header-notifications-dropdown">
+
+							<div class="header-notifications-headline">
+								<h4>Messages</h4>
+								<button class="mark-as-read ripple-effect-dark" title="Mark all as read" data-tippy-placement="left">
+									<i class="icon-feather-check-square"></i>
+								</button>
+							</div>
+
+							<div class="header-notifications-content">
+								<div class="header-notifications-scroll" data-simplebar>
+									<ul>
+										{% for msg in current_user.new_messages() %}
+										<li class="notifications-not-read">
+											<a href="{{ url_for('message.messages') }}">
+												<span class="notification-avatar status-online"><img src="{{ url_for('static', filename='images/'+msg.sender.profile_picture) }}" alt=""></span>
+												<div class="notification-text">
+													<strong>{{ msg.sender }}</strong>
+													<p class="notification-msg-text">{{ msg.body }}</p>
+													<span class="color">{{ msg.timestamp.strftime('%d:%m:%Y saat %H:%M') }}</span>
+												</div>
+											</a>
+										</li>
+										{% endfor %}
+									</ul>
+								</div>
+							</div>
+
+							<a href="{{ url_for('message.messages') }}" class="header-notifications-button ripple-effect button-sliding-icon">See all messages<i class="icon-material-outline-arrow-right-alt"></i></a>
+						</div>
+					</div>
+
+				</div>
+				<!--  User Notifications / End -->
+
+				<!-- User Menu -->
+				<div class="header-widget">
+
+					<!-- Messages -->
+					<div class="header-notifications user-menu">
+						<div class="header-notifications-trigger">
+							<a href="#"><div class="user-avatar status-online"><img src="{{ url_for('static', filename='images/'+current_user.profile_picture) }}" alt=""></div></a>
+						</div>
+
+						<!-- Dropdown -->
+						<div class="header-notifications-dropdown">
+
+							<!-- User Status -->
+							<div class="user-status">
+
+								<!-- User Name / Avatar -->
+								<div class="user-details">
+									<div class="user-avatar status-online"><img src="{{ url_for('static', filename='images/'+current_user.profile_picture) }}" alt=""></div>
+									<div class="user-name">
+										{% if current_user.name %}
+											{{ current_user.get_full_name() }}
+										{% else %}
+											{{ current_user.email }}
+										{% endif %}
+
+										{% if current_user.status == 'employer' %}
+											<span>Employer</span>
+										{% else %}
+											<span>Freelancer</span>
+										{% endif %}
+									</div>
+								</div>
+
+								<!-- User Status Switcher -->
+								<div class="status-switch" id="snackbar-user-status">
+									<label class="user-online current-status">Online</label>
+									<label class="user-invisible">Offline</label>
+									<!-- Status Indicator -->
+									<span class="status-indicator" aria-hidden="true"></span>
+								</div>
+						</div>
+
+						<ul class="user-menu-small-nav">
+							{% if current_user.status == 'freelancer' %}
+								<li><a href="{{ url_for('public.freelancer', user_id=current_user.id) }}"><i class="icon-material-outline-account-circle"></i> My Profile</a></li>
+							{% else %}
+								<li><a href="{{ url_for('editProfile.editProfile_page') }}"><i class="icon-material-outline-account-circle"></i> Edit Profile</a></li>
+							{% endif %}
+							<li><a href="{{ url_for('setting.setting_page') }}"><i class="icon-material-outline-settings"></i> Settings</a></li>
+							<li><a href="{{ url_for('account.logout') }}"><i class="icon-material-outline-power-settings-new"></i> Logout </a></li>
+						</ul>
+
+						</div>
+					</div>
+
+				</div>
+				<!-- User Menu / End -->
+				{% else %}
+			 <!-- Right Side Content / End -->
+				<div class="right-side">
+					<div class="header-widget">
+						<a href="{{ url_for('account.login') }}" class="log-in-button"><i class="icon-feather-log-in"></i> <span>Log In / Sign Up</span></a>
+					</div>
+				{% endif %}
+				<!-- Mobile Navigation Button -->
+				<span class="mmenu-trigger">
+					<button class="hamburger hamburger--collapse" type="button">
+						<span class="hamburger-box">
+							<span class="hamburger-inner"></span>
+						</span>
+					</button>
+				</span>
+
+			</div>
+			<!-- Right Side Content / End -->
+
+		</div>
+	</div>
+	<!-- Header / End -->
+</header>
+
+<script src="{{ url_for('static', filename='js/header.js')}}"></script>

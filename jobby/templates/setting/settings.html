@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+
+<!-- Basic Page Needs
+================================================== -->
+<title>AnakutJob - Account Settings</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<!-- CSS
+================================================== -->
+<link href='https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="/static/css/style.css?u={{ last_updated }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/colors/blue.css') }}">
+
+</head>
+<body class="gray">
+
+<!-- Wrapper -->
+<div id="wrapper">
+
+<!-- Header Container
+================================================== -->
+{% include 'header.html' %}
+<div class="clearfix"></div>
+<!-- Header Container / End -->
+
+
+<!-- Dashboard Container -->
+<div class="dashboard-container">
+
+	<!-- Dashboard Sidebar
+	================================================== -->
+{% include 'sidebar.html' %}
+	<!-- Dashboard Sidebar / End -->
+
+	<!-- Dashboard Content
+	================================================== -->
+	<div class="dashboard-content-container" data-simplebar>
+		<div class="dashboard-content-inner" >
+
+			<!-- Dashboard Headline -->
+			<div class="dashboard-headline">
+				<h3>Settings</h3>
+
+				<!-- Breadcrumbs -->
+				<nav id="breadcrumbs" class="dark">
+					<ul>
+						<li><a href="{{ url_for('public.index') }}">Home</a></li>
+						<li><a href="{{ url_for('manage.dashboard') }}">Dashboard</a></li>
+						<li>Settings</li>
+					</ul>
+				</nav>
+			</div>
+
+			<!-- Row -->
+			<div class="row">
+				<input type='hidden' id="csrf_token" name="csrf_token" value="{{ csrf_token() }}"/>
+				<div class="col-xl-12">
+					<div class="dashboard-box">
+						<div class="headline collapse">
+							<h3><i class="icon-material-outline-lock"></i> Change Password</h3>
+						</div>
+						<div class="content with-padding">
+							<div class="row">
+								<div class="col-xl-4">
+									<div class="submit-field">
+										<h5>Old Password</h5>
+										<input id="password" type="password" class="with-border">
+									</div>
+								</div>
+
+								<div class="col-xl-4">
+									<div class="submit-field">
+										<h5>New Password</h5>
+										<input id="new_password" type="password" class="with-border">
+									</div>
+								</div>
+
+								<div class="col-xl-4">
+									<div class="submit-field">
+										<h5>New Password Again</h5>
+										<input id="confirm_password" type="password" class="with-border">
+									</div>
+									<a class="button saveSetting" data="security"><i class="icon-feather-save"></i> Save Changes</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Row / End -->
+
+			<!-- Footer -->
+			<div class="dashboard-footer-spacer"></div>
+			<div class="small-footer margin-top-15">
+				<div class="small-footer-copyrights">
+					© 2021 <strong>Jobby</strong>. All rights reserved.
+				</div>
+				<ul class="footer-social-links">
+					<li>
+						<a href="#" title="Facebook" data-tippy-placement="top">
+							<i class="icon-brand-facebook-f"></i>
+						</a>
+					</li>
+					<li>
+						<a href="#" title="Twitter" data-tippy-placement="top">
+							<i class="icon-brand-twitter"></i>
+						</a>
+					</li>
+					<li>
+						<a href="#" title="Google Plus" data-tippy-placement="top">
+							<i class="icon-brand-google-plus-g"></i>
+						</a>
+					</li>
+					<li>
+						<a href="#" title="LinkedIn" data-tippy-placement="top">
+							<i class="icon-brand-linkedin-in"></i>
+						</a>
+					</li>
+				</ul>
+				<div class="clearfix"></div>
+			</div>
+			<!-- Footer / End -->
+
+		</div>
+	</div>
+	<!-- Dashboard Content / End -->
+
+</div>
+<!-- Dashboard Container / End -->
+
+</div>
+<!-- Wrapper / End -->
+
+
+<!-- Scripts
+================================================== -->
+<script src="{{ url_for('static', filename='js/jquery-3.3.1.min.js')}}"></script>
+<script src="{{ url_for('static', filename='js/jquery-migrate-3.0.0.min.js')}}"></script>
+<script src="{{ url_for('static', filename='js/mmenu.min.js')}}"></script>
+<script src="{{ url_for('static', filename='js/tippy.all.min.js')}}"></script>
+<script src="{{ url_for('static', filename='js/simplebar.min.js')}}"></script>
+<script src="{{ url_for('static', filename='js/bootstrap-slider.min.js')}}"></script>
+<script src="{{ url_for('static', filename='js/bootstrap-select.min.js')}}"></script>
+<script src="{{ url_for('static', filename='js/snackbar.js')}}"></script>
+<script src="{{ url_for('static', filename='js/clipboard.min.js')}}"></script>
+<script src="{{ url_for('static', filename='js/counterup.min.js')}}"></script>
+<script src="{{ url_for('static', filename='js/magnific-popup.min.js')}}"></script>
+<script src="{{ url_for('static', filename='js/slick.min.js')}}"></script>
+<script type="text/javascript" src="/static/js/custom.js?u={{ last_updated }}"></script>
+<script type="text/javascript" src="/static/js/setting.js?u={{ last_updated }}"></script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+</body>
+</html>

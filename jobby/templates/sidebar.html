@@ -1,0 +1,58 @@
+<div class="dashboard-sidebar">
+  <div class="dashboard-sidebar-inner" data-simplebar>
+    <div class="dashboard-nav-container">
+
+      <!-- Responsive Navigation Trigger -->
+      <a href="#" class="dashboard-responsive-nav-trigger">
+        <span class="hamburger hamburger--collapse" >
+          <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+          </span>
+        </span>
+        <span class="trigger-title">Navigation Menu</span>
+      </a>
+
+      <!-- Navigation -->
+      <div class="dashboard-nav">
+        <div class="dashboard-nav-inner">
+
+          <ul data-submenu-title="Start">
+            <li><a href="{{ url_for('manage.dashboard') }}"><i class="icon-material-outline-dashboard"></i> Dashboard</a></li>
+            <li><a href="{{ url_for('message.messages') }}"><i class="icon-material-outline-question-answer"></i> Messages</a></li>
+            <li><a href="#"><i class="icon-material-outline-star-border"></i> Bookmarks</a>
+              <ul>
+                <li><a href="{{ url_for('manage.bookmarkedTasks') }}">Bookmarked Projects</a></li>
+                <li><a href="{{ url_for('manage.bookmarkedUsers') }}">Bookmarked Users</a></li>
+              </ul>
+            </li>
+            <li><a href="{{ url_for('manage.reviews') }}"><i class="icon-material-outline-rate-review"></i> Reviews</a></li>
+          </ul>
+
+          <ul data-submenu-title="Manage">
+            <li><a href="#"><i class="icon-material-outline-assignment"></i>Manage Projects</a>
+              <ul>
+                {% if current_user.is_there_offer() %}
+                  <li><a href="{{ url_for('manage.manageOffers') }}">Recieved Offers</a></li>
+                {% endif %}
+                <li><a href="{{ url_for('manage.manageTasks') }}">Posted Projects</a></li>
+                {% if current_user.status == 'freelancer' %}
+                  <li><a href="{{ url_for('manage.activeBids') }}">Active Bids</a></li>
+                {% endif %}
+                <li><a href="{{ url_for('posttask.post_task') }}">Post a Project</a></li>
+              </ul>
+            </li>
+          </ul>
+
+          <ul data-submenu-title="Account">
+            <li><a href="{{ url_for('editProfile.editProfile_page') }}"><i class="icon-material-outline-account-circle"></i> Edit Profile</a></li>
+            <li><a href="{{ url_for('setting.setting_page') }}"><i class="icon-material-outline-settings"></i> Settings</a></li>
+            <li><a href="{{ url_for('account.logout') }}"><i class="icon-material-outline-power-settings-new"></i> Logout</a></li>
+          </ul>
+
+        </div>
+      </div>
+      <!-- Navigation / End -->
+
+    </div>
+  </div>
+</div>

@@ -1,0 +1,822 @@
+<!doctype html>
+<html lang="en">
+<head>
+
+<!-- Basic Page Needs
+================================================== -->
+<title>AnakutJob - Edit Profile</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<!-- CSS
+================================================== -->
+<link href='https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900' rel='stylesheet' type='text/css'>
+<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+<link rel="stylesheet" href="/static/css/style.css?u={{ last_updated }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/colors/blue.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/table.css') }}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" />
+
+</head>
+<body class="gray">
+
+<!-- Wrapper -->
+<div id="wrapper">
+
+<!-- Header Container
+================================================== -->
+{% include 'header.html' %}
+<div class="clearfix"></div>
+<!-- Header Container / End -->
+
+
+<!-- Dashboard Container -->
+<div class="dashboard-container">
+
+	<!-- Dashboard Sidebar
+	================================================== -->
+{% include 'sidebar.html' %}
+	<!-- Dashboard Sidebar / End -->
+
+	<!-- Dashboard Content
+	================================================== -->
+	<div class="dashboard-content-container" data-simplebar>
+		<div class="dashboard-content-inner" >
+
+			<!-- Dashboard Headline -->
+			<div class="dashboard-headline">
+				<h3>Edit Profile</h3>
+
+				<!-- Breadcrumbs -->
+				<nav id="breadcrumbs" class="dark">
+					<ul>
+						<li><a href="{{ url_for('public.index') }}">Home</a></li>
+						<li><a href="{{ url_for('manage.dashboard') }}">Dashboard</a></li>
+						<li>Edit Profile</li>
+					</ul>
+				</nav>
+			</div>
+			{% if current_user.status == 'employer' %}
+				<div class="notification notice closeable">
+					<p>In order to be a freelancer you need to complete all fields with star. Plus at least one skill. Remember, freelancers who give more information are more likely to win the bid.</p>
+					<a class="close" href="#"></a>
+				</div>
+			{% endif %}
+
+			{% for message in get_flashed_messages() %}
+				<div class="notification error closeable">
+					<p>{{ message }}</p>
+					<a class="close" href="#"></a>
+				</div>
+			{% endfor %}
+
+			<!-- Row -->
+			<div class="row">
+
+				<form method="POST" name="personel" action="{{ url_for('editProfile.editProfile_personel') }}" enctype="multipart/form-data">
+					<input type='hidden' id="csrf_token" name="csrf_token" value="{{ csrf_token() }}"/>
+
+					<div class="col-xl-12">
+						<div class="dashboard-box margin-top-0">
+								<div class="headline">
+									<h3><i class="icon-material-outline-account-circle"></i> Personal Information</h3>
+								</div>
+							<div class="content with-padding padding-bottom-0">
+
+								<div class="row">
+
+									<div class="col-auto">
+										<div class="avatar-wrapper" data-tippy-placement="bottom" title="Change Picture">
+											<img class="profile-pic" src="{{ url_for('static', filename="images/"+current_user.profile_picture) }}" alt="" />
+											<div class="upload-button"></div>
+											<input class="file-upload" type="file" name="file"/>
+										</div>
+									</div>
+
+									<div class="col">
+										<div class="row">
+
+											<div class="col-xl-6">
+												<div class="submit-field">
+													<h5>Name *</h5>
+													<input type="text" name="name" class="with-border" value="{{ current_user.name }}" maxlength="30" minlength="5">
+												</div>
+											</div>
+
+											<div class="col-xl-6">
+												<div class="submit-field">
+													<h5>Surname *</h5>
+													<input type="text" name="surname"class="with-border" value="{{ current_user.surname }}" maxlength="30" minlength="5">
+												</div>
+											</div>
+
+											<div class="col-xl-6">
+												<div class="submit-field">
+													<h5>Phone Number</h5>
+													<input type="number" name="phone_number" class="with-border" value="{{ current_user.phone_number }}">
+												</div>
+											</div>
+
+											<div class="col-xl-6">
+												<div class="submit-field">
+													<h5>Email *</h5>
+													<input type="email" name="email" class="with-border" value="{{ current_user.email }}" maxlength="50">
+												</div>
+												<button class="button personel" type="submit"><i class="icon-feather-save"></i> Save Changes</button>
+											</div>
+
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+				</form>
+
+					<!-- Dashboard Box -->
+					<div class="col-xl-12">
+						<div class="dashboard-box">
+
+							<div class="headline collapse" style="cursor: pointer;">
+								<h3><i class="icon-material-outline-face"></i> Profile Information</h3>
+							</div>
+
+							<div class="content" style="display: none;">
+								<ul class="fields-ul">
+									<li>
+										<div class="row">
+											<div class="col-xl-4">
+												<div class="submit-field">
+													<h5>Field of Work *</h5>
+													<select id="field_of_work" class="selectpicker with-border" data-size="7" title="Field of Work" data-live-search="true" value="">
+														<option value="1">Programming</option>
+														<option value="2">Writing</option>
+														<option value="3">Graphics Design</option>
+														<option value="4">Digital Marketing</option>
+														<option value="5">Data Science</option>
+														<option value="6">Video & Animation</option>
+														<option value="7">Lifestyle</option>
+														<option value="8">Finance</option>
+														<option value="9">Other</option>
+													</select>
+												</div>
+											</div>
+											<div class="col-xl-4">
+												<div class="submit-field">
+													<h5>Tagline *</h5>
+													<input type="text" id="tagline" class="with-border" value="{{ current_user.tagline }}" placeholder="Ex. Web Developer">
+												</div>
+											</div>
+
+											<div class="col-xl-4">
+												<div class="submit-field">
+													<h5>Location *</h5>
+													<select id="location" class="selectpicker with-border" data-size="7" title="Choose Location" data-live-search="true">
+													</select>
+												</div>
+											</div>
+
+											<div class="col-xl-12">
+												<div class="submit-field">
+													<h5>Introduction *</h5>
+												</div>
+												<div class="submit-field" id="editor3">
+													{{ current_user.introduction|safe }}
+												</div>
+												<input type='hidden' name="description" id="profileQuill" value=""/>
+												<a class="button saveSetting" data="profile"><i class="icon-feather-save"></i> Save Changes</a>
+											</div>
+
+										</div>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-xl-12">
+						<div class="dashboard-box">
+
+							<div class="headline collapse" style="cursor: pointer;">
+								<h3><i class="icon-material-outline-mouse"></i> Skills</h3>
+							</div>
+							<div class="content with-padding" style="display: none;">
+								{% if current_user.get_all_skills() %}
+									<table class="flatTable" id="skill_table">
+									 <tr class="headingTr">
+										 <td>SKILL</td>
+										 <td>LEVEL</td>
+										 <td>ACTION</td>
+									 </tr>
+									 <tbody id="tbody_skill">
+								 {% for skill in current_user.get_all_skills() %}
+									 <tr id="s_{{skill.id}}">
+										 <td>{{ skill }}</td>
+										 <td>{{ skill.level }}%</td>
+										 <td class="controlTd">
+												<button type="button" data="s_{{ skill.id }}" class="btn btn-danger deleteItem"><i class="icon-feather-trash-2"></i></button>
+										 </td>
+									 </tr>
+								 {% endfor %}
+								 </tbody>
+
+									</table>
+								{% else %}
+									<table class="flatTable" id="skill_table" style="display: none;">
+									 <tr class="headingTr">
+										 <td>SKILL</td>
+										 <td>LEVEL</td>
+										 <td>ACTION</td>
+									 </tr>
+									 <tbody id="tbody_skill">
+
+                   </tbody>
+
+								  </table>
+								{% endif %}
+								<div class="row" id="skillForm">
+									<div class="col">
+										<div class="submit-field">
+											<h5>Skill</h5>
+											<input id="skill" type="text" class="with-border">
+										</div>
+									</div>
+
+									<div class="col">
+										<div class="submit-field">
+											<h5>Level %</h5>
+											<input id="level" type="number" class="with-border">
+										</div>
+										<a class="button saveSetting" data="skill"><i class="icon-feather-save"></i> Save Changes</a>
+									</div>
+								</div>
+								<div class="col-xl-12 addField" name="addButton">
+									<p class="button-skill"><i class="icon-material-outline-add-circle-outline"></i> Add Another</p>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-xl-12">
+						<div class="dashboard-box">
+
+							<div class="headline collapse" style="cursor: pointer;">
+								<h3><i class="icon-material-outline-business"></i> Work Experience</h3>
+							</div>
+
+							<div class="content with-padding" style="display: none;">
+								<div>
+									{% if current_user.workexps() %}
+										<table class="flatTable" id="workExp_table">
+										 <tr class="headingTr">
+											 <td>POSITION</td>
+											 <td>COMPANY</td>
+											 <td>ACTION</td>
+										 </tr>
+										 <tbody id="tbody_workExp">
+									 {% for workexp in current_user.workexps() %}
+										 <tr id="w_{{workexp.id}}">
+											 <td>{{ workexp }}</td>
+											 <td>{{ workexp.company }}</td>
+											 <td class="controlTd">
+													<button type="button" data="w_{{ workexp.id }}" class="btn btn-danger deleteItem"><i class="icon-feather-trash-2"></i></button>
+											 </td>
+										 </tr>
+									 {% endfor %}
+								 </tbody>
+
+										</table>
+									{% else %}
+										<table class="flatTable" id="workExp_table" style="display: none;">
+										 <tr class="headingTr">
+											 <td>POSITION</td>
+											 <td>COMPANY</td>
+											 <td>ACTION</td>
+										 </tr>
+										 <tbody id="tbody_workExp">
+
+	                   </tbody>
+
+									  </table>
+										{% endif %}
+								</div>
+								<div class="row" id="workExpForm">
+									<div class="col-xl-6">
+										<div class="submit-field">
+											<h5>Position</h5>
+											<input type="text" id="position" class="with-border" placeholder="Ex. Web Developer">
+										</div>
+									</div>
+									<div class="col-xl-6">
+										<div class="submit-field">
+											<h5>Company</h5>
+											<input type="text" id="company" class="with-border" placeholder="Ex. Google">
+										</div>
+									</div>
+									<div class="col-xl-6">
+										<div class="row">
+											<div class="col">
+												<div class="submit-field">
+													<label class=""><strong>Start</strong></label>
+													<select class="with-border" id="start_month_job" type="text">
+														<option selected>Jan</option>
+														<option>Feb</option>
+														<option>Mar</option>
+														<option>Apr</option>
+														<option>May</option>
+														<option>June</option>
+														<option>July</option>
+														<option>Aug</option>
+														<option>Sep</option>
+														<option>Oct</option>
+														<option>Nov</option>
+														<option>Dec</option>
+													</select>
+												</div>
+											</div>
+											<div class="col">
+												<div class="submit-field">
+													<label class="">&nbsp;</label>
+
+													<select class="with-border" id="start_year_job">
+														<option value="2020">2020</option>
+														<option value="2019">2019</option>
+														<option value="2018">2018</option>
+														<option value="2017">2017</option>
+														<option value="2016">2016</option>
+														<option value="2015">2015</option>
+														<option value="2014">2014</option>
+														<option value="2013">2013</option>
+														<option value="2012">2012</option>
+														<option value="2011">2011</option>
+														<option value="2010">2010</option>
+														<option value="2009">2009</option>
+														<option value="2008">2008</option>
+														<option value="2007">2007</option>
+														<option value="2006">2006</option>
+														<option value="2005">2005</option>
+														<option value="2004">2004</option>
+														<option value="2003">2003</option>
+														<option value="2002">2002</option>
+														<option value="2001">2001</option>
+														<option value="2000">2000</option>
+														<option value="1999">1999</option>
+														<option value="1998">1998</option>
+														<option value="1997">1997</option>
+														<option value="1996">1996</option>
+														<option value="1995">1995</option>
+														<option value="1994">1994</option>
+														<option value="1993">1993</option>
+														<option value="1992">1992</option>
+														<option value="1991">1991</option>
+														<option value="1990">1990</option>
+														<option value="1989">1989</option>
+														<option value="1988">1988</option>
+														<option value="1987">1987</option>
+														<option value="1986">1986</option>
+														<option value="1985">1985</option>
+														<option value="1984">1984</option>
+														<option value="1983">1983</option>
+														<option value="1982">1982</option>
+														<option value="1981">1981</option>
+														<option value="1980">1980</option>
+													</select>
+
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-xl-6">
+										<div class="row">
+											<div class="col">
+												<div class="submit-field">
+													<label class=""><strong>End</strong></label>
+													<select class="with-border" id="end_month_job" type="text">
+														<option selected>Jan</option>
+														<option>Feb</option>
+														<option>Mar</option>
+														<option>Apr</option>
+														<option>May</option>
+														<option>June</option>
+														<option>July</option>
+														<option>Aug</option>
+														<option>Sep</option>
+														<option>Oct</option>
+														<option>Nov</option>
+														<option>Dec</option>
+													</select>
+												</div>
+											</div>
+											<div class="col">
+												<div class="submit-field">
+													<label class="">&nbsp;</label>
+
+													<select class="with-border" id="end_year_job">
+														<option value="2020">2020</option>
+														<option value="2019">2019</option>
+														<option value="2018">2018</option>
+														<option value="2017">2017</option>
+														<option value="2016">2016</option>
+														<option value="2015">2015</option>
+														<option value="2014">2014</option>
+														<option value="2013">2013</option>
+														<option value="2012">2012</option>
+														<option value="2011">2011</option>
+														<option value="2010">2010</option>
+														<option value="2009">2009</option>
+														<option value="2008">2008</option>
+														<option value="2007">2007</option>
+														<option value="2006">2006</option>
+														<option value="2005">2005</option>
+														<option value="2004">2004</option>
+														<option value="2003">2003</option>
+														<option value="2002">2002</option>
+														<option value="2001">2001</option>
+														<option value="2000">2000</option>
+														<option value="1999">1999</option>
+														<option value="1998">1998</option>
+														<option value="1997">1997</option>
+														<option value="1996">1996</option>
+														<option value="1995">1995</option>
+														<option value="1994">1994</option>
+														<option value="1993">1993</option>
+														<option value="1992">1992</option>
+														<option value="1991">1991</option>
+														<option value="1990">1990</option>
+														<option value="1989">1989</option>
+														<option value="1988">1988</option>
+														<option value="1987">1987</option>
+														<option value="1986">1986</option>
+														<option value="1985">1985</option>
+														<option value="1984">1984</option>
+														<option value="1983">1983</option>
+														<option value="1982">1982</option>
+														<option value="1981">1981</option>
+														<option value="1980">1980</option>
+													</select>
+
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-xl-12">
+										<div class="submit-field">
+											<h5>Description</h5>
+										</div>
+
+										<div class="submit-field" id="editor2"></div>
+										<input type='hidden' name="description" id="desc_work" value=""/>
+										<a class="button saveSetting" data="workExp"><i class="icon-feather-save"></i> Save Changes</a>
+									</div>
+								</div>
+								<div class="col-xl-12 addField" name="addButton">
+									<p class="button-skill"><i class="icon-material-outline-add-circle-outline"></i> Add Another</p>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-xl-12">
+						<div class="dashboard-box">
+
+							<div class="headline collapse" style="cursor: pointer;">
+								<h3><i class="icon-line-awesome-mortar-board"></i> Education</h3>
+							</div>
+
+							<div class="content with-padding" style="display: none;">
+								<div>
+									{% if current_user.edus() %}
+									 <table class="flatTable" id="edu_table">
+										<tr class="headingTr">
+											<td>FIELD</td>
+											<td>SCHOOL</td>
+											<td>ACTION</td>
+										</tr>
+										<tbody id="tbody_edu">
+									{% for edu in current_user.edus() %}
+										<tr id="e_{{edu.id}}">
+											<td>{{ edu }}</td>
+											<td>{{ edu.school }}</td>
+											<td class="controlTd">
+												 <button type="button" data="e_{{ edu.id }}" class="btn btn-danger deleteItem"><i class="icon-feather-trash-2"></i></button>
+											</td>
+										</tr>
+									{% endfor %}
+								</tbody>
+
+									 </table>
+								 {% else %}
+									 <table class="flatTable" id="edu_table" style="display: none;">
+										<tr class="headingTr">
+											<td>FIELD</td>
+											<td>SCHOOL</td>
+											<td>ACTION</td>
+										</tr>
+										<tbody id="tbody_edu">
+
+										</tbody>
+
+									 </table>
+									 {% endif %}
+								</div>
+								<div class="row" id="eduForm">
+									<div class="col-xl-6">
+										<div class="submit-field">
+											<h5>Field</h5>
+											<input type="text" id="field" class="with-border" placeholder="Ex. Computer Science">
+										</div>
+									</div>
+									<div class="col-xl-6">
+										<div class="submit-field">
+											<h5>School</h5>
+											<input type="text" id="school" class="with-border" placeholder="Ex. Harward University">
+										</div>
+									</div>
+									<div class="col-xl-6">
+										<div class="row">
+											<div class="col">
+												<div class="submit-field">
+													<label class=""><strong>Start</strong></label>
+													<select class="with-border" id="start_month_edu" type="text">
+														<option selected>Jan</option>
+														<option>Feb</option>
+														<option>Mar</option>
+														<option>Apr</option>
+														<option>May</option>
+														<option>June</option>
+														<option>July</option>
+														<option>Aug</option>
+														<option>Sep</option>
+														<option>Oct</option>
+														<option>Nov</option>
+														<option>Dec</option>
+													</select>
+												</div>
+											</div>
+											<div class="col">
+												<div class="submit-field">
+													<label class="">&nbsp;</label>
+													<select class="with-border" id="start_year_edu">
+														<option value="2020">2020</option>
+														<option value="2019">2019</option>
+														<option value="2018">2018</option>
+														<option value="2017">2017</option>
+														<option value="2016">2016</option>
+														<option value="2015">2015</option>
+														<option value="2014">2014</option>
+														<option value="2013">2013</option>
+														<option value="2012">2012</option>
+														<option value="2011">2011</option>
+														<option value="2010">2010</option>
+														<option value="2009">2009</option>
+														<option value="2008">2008</option>
+														<option value="2007">2007</option>
+														<option value="2006">2006</option>
+														<option value="2005">2005</option>
+														<option value="2004">2004</option>
+														<option value="2003">2003</option>
+														<option value="2002">2002</option>
+														<option value="2001">2001</option>
+														<option value="2000">2000</option>
+														<option value="1999">1999</option>
+														<option value="1998">1998</option>
+														<option value="1997">1997</option>
+														<option value="1996">1996</option>
+														<option value="1995">1995</option>
+														<option value="1994">1994</option>
+														<option value="1993">1993</option>
+														<option value="1992">1992</option>
+														<option value="1991">1991</option>
+														<option value="1990">1990</option>
+														<option value="1989">1989</option>
+														<option value="1988">1988</option>
+														<option value="1987">1987</option>
+														<option value="1986">1986</option>
+														<option value="1985">1985</option>
+														<option value="1984">1984</option>
+														<option value="1983">1983</option>
+														<option value="1982">1982</option>
+														<option value="1981">1981</option>
+														<option value="1980">1980</option>
+													</select>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-xl-6">
+										<div class="row">
+											<div class="col">
+												<div class="submit-field">
+													<label class=""><strong>Finish</strong></label>
+													<select class="with-border" id="end_month_edu" type="text">
+														<option selected>Jan</option>
+														<option>Feb</option>
+														<option>Mar</option>
+														<option>Apr</option>
+														<option>May</option>
+														<option>June</option>
+														<option>July</option>
+														<option>Aug</option>
+														<option>Sep</option>
+														<option>Oct</option>
+														<option>Nov</option>
+														<option>Dec</option>
+													</select>
+												</div>
+											</div>
+											<div class="col">
+												<div class="submit-field">
+													<label class="">&nbsp;</label>
+													<select class="with-border" id="end_year_edu">
+														<option value="2020">2020</option>
+														<option value="2019">2019</option>
+														<option value="2018">2018</option>
+														<option value="2017">2017</option>
+														<option value="2016">2016</option>
+														<option value="2015">2015</option>
+														<option value="2014">2014</option>
+														<option value="2013">2013</option>
+														<option value="2012">2012</option>
+														<option value="2011">2011</option>
+														<option value="2010">2010</option>
+														<option value="2009">2009</option>
+														<option value="2008">2008</option>
+														<option value="2007">2007</option>
+														<option value="2006">2006</option>
+														<option value="2005">2005</option>
+														<option value="2004">2004</option>
+														<option value="2003">2003</option>
+														<option value="2002">2002</option>
+														<option value="2001">2001</option>
+														<option value="2000">2000</option>
+														<option value="1999">1999</option>
+														<option value="1998">1998</option>
+														<option value="1997">1997</option>
+														<option value="1996">1996</option>
+														<option value="1995">1995</option>
+														<option value="1994">1994</option>
+														<option value="1993">1993</option>
+														<option value="1992">1992</option>
+														<option value="1991">1991</option>
+														<option value="1990">1990</option>
+														<option value="1989">1989</option>
+														<option value="1988">1988</option>
+														<option value="1987">1987</option>
+														<option value="1986">1986</option>
+														<option value="1985">1985</option>
+														<option value="1984">1984</option>
+														<option value="1983">1983</option>
+														<option value="1982">1982</option>
+														<option value="1981">1981</option>
+														<option value="1980">1980</option>
+													</select>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-xl-12">
+										<div class="submit-field">
+											<h5>Description</h5>
+										</div>
+										<div class="submit-field" id="editor"></div>
+										<input type='hidden' name="description" id="desc_edu" value=""/>
+										<a class="button saveSetting" data="education"><i class="icon-feather-save"></i> Save Changes</a>
+									</div>
+								</div>
+								<div class="col-xl-12 addField" name="addButton">
+									<p class="button-skill"><i class="icon-material-outline-add-circle-outline"></i> Add Another</p>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-xl-12">
+						<div class="dashboard-box">
+
+							<div class="headline collapse" style="cursor: pointer;">
+								<h3><i class="fab fa-twitter-square"></i> Social Links</h3>
+							</div>
+
+							<div class="content with-padding" style="display: none;">
+								<div class="notification notice closeable">
+									<p>You don't need to write whole url, just ending is enough!</p>
+									<a class="close" href="#"></a>
+								</div>
+								<div class="row">
+
+									<div class="col-xl-6">
+										<div class="submit-field">
+											<h5>Facebook</h5>
+											<input type="text" id="facebook" class="with-border" placeholder="www.facebook.com/">
+										</div>
+									</div>
+
+									<div class="col-xl-6">
+										<div class="submit-field">
+											<h5>Twitter</h5>
+											<input type="text" id="twitter" class="with-border" placeholder="www.twitter.com/">
+										</div>
+									</div>
+
+									<div class="col-xl-6">
+										<div class="submit-field">
+											<h5>Youtube</h5>
+											<input type="text" id="youtube" class="with-border" placeholder="www.youtube.com/">
+										</div>
+									</div>
+
+									<div class="col-xl-6">
+										<div class="submit-field">
+											<h5>Instagram</h5>
+											<input type="text" id="instagram" class="with-border" placeholder="www.instagram.com/">
+										</div>
+									</div>
+
+									<div class="col-xl-6">
+										<div class="submit-field">
+											<h5>Github</h5>
+											<input type="text" id="github" class="with-border" placeholder="www.github.com/">
+										</div>
+									</div>
+
+									<div class="col-xl-6">
+										<div class="submit-field">
+											<h5>LinkedIn</h5>
+											<input type="text" id="linkedin" class="with-border" placeholder="www.linkedin.com/">
+										</div>
+										<a class="button saveSetting" data="social"><i class="icon-feather-save"></i> Save Changes</a>
+									</div>
+
+								</div>
+							</div>
+						</div>
+					</div>
+			</div>
+
+			<!-- Row / End -->
+
+			<!-- Footer -->
+			<div class="dashboard-footer-spacer"></div>
+			<div class="small-footer margin-top-15">
+				<div class="small-footer-copyrights">
+					© 2021 <strong>Jobby</strong>. All rights reserved.
+				</div>
+				<ul class="footer-social-links">
+					<li>
+						<a href="#" title="Facebook" data-tippy-placement="top">
+							<i class="icon-brand-facebook-f"></i>
+						</a>
+					</li>
+					<li>
+						<a href="#" title="Twitter" data-tippy-placement="top">
+							<i class="icon-brand-twitter"></i>
+						</a>
+					</li>
+					<li>
+						<a href="#" title="Google Plus" data-tippy-placement="top">
+							<i class="icon-brand-google-plus-g"></i>
+						</a>
+					</li>
+					<li>
+						<a href="#" title="LinkedIn" data-tippy-placement="top">
+							<i class="icon-brand-linkedin-in"></i>
+						</a>
+					</li>
+				</ul>
+				<div class="clearfix"></div>
+			</div>
+			<!-- Footer / End -->
+
+		</div>
+	</div>
+	<!-- Dashboard Content / End -->
+
+</div>
+<!-- Dashboard Container / End -->
+
+</div>
+<!-- Wrapper / End -->
+
+<!-- Scripts
+================================================== -->
+<script src="{{ url_for('static', filename='js/jquery-3.3.1.min.js')}}"></script>
+<script src="{{ url_for('static', filename='js/jquery-migrate-3.0.0.min.js')}}"></script>
+<script src="{{ url_for('static', filename='js/mmenu.min.js')}}"></script>
+<script src="{{ url_for('static', filename='js/tippy.all.min.js')}}"></script>
+<script src="{{ url_for('static', filename='js/simplebar.min.js')}}"></script>
+<script src="{{ url_for('static', filename='js/bootstrap-slider.min.js')}}"></script>
+<script src="{{ url_for('static', filename='js/bootstrap-select.min.js')}}"></script>
+<script src="{{ url_for('static', filename='js/snackbar.js')}}"></script>
+<script src="{{ url_for('static', filename='js/clipboard.min.js')}}"></script>
+<script src="{{ url_for('static', filename='js/counterup.min.js')}}"></script>
+<script src="{{ url_for('static', filename='js/magnific-popup.min.js')}}"></script>
+<script src="{{ url_for('static', filename='js/slick.min.js')}}"></script>
+<script type="text/javascript" src="/static/js/custom.js?u={{ last_updated }}"></script>
+<script type="text/javascript" src="/static/js/editProfile.js?u={{ last_updated }}"></script>
+<script src="{{ url_for('static', filename='js/populateSelect.js')}}"></script>
+
+<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+</body>
+</html>

@@ -1,0 +1,390 @@
+<!doctype html>
+<html lang="en">
+<head>
+
+<!-- Basic Page Needs
+================================================== -->
+<title>AnakutJob - Reviews</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+<!-- CSS
+================================================== -->
+<link rel="stylesheet" href="/static/css/style.css?u={{ last_updated }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/colors/blue.css') }}">
+
+</head>
+<body class="gray">
+
+<!-- Wrapper -->
+<div id="wrapper">
+
+<!-- Header Container
+================================================== -->
+{% include 'header.html' %}
+
+<div class="clearfix"></div>
+<!-- Header Container / End -->
+
+
+<!-- Dashboard Container -->
+<div class="dashboard-container">
+
+	<!-- Dashboard Sidebar
+	================================================== -->
+	{% include 'sidebar.html' %}
+	<!-- Dashboard Sidebar / End -->
+
+
+	<!-- Dashboard Content
+	================================================== -->
+	<div class="dashboard-content-container" data-simplebar>
+		<div class="dashboard-content-inner" >
+
+			<!-- Dashboard Headline -->
+			<div class="dashboard-headline">
+				<h3>Reviews</h3>
+
+				<!-- Breadcrumbs -->
+				<nav id="breadcrumbs" class="dark">
+					<ul>
+						<li><a href="{{ url_for('public.index') }}">Home</a></li>
+						<li><a href="{{ url_for('manage.dashboard') }}">Dashboard</a></li>
+						<li>Reviews</li>
+					</ul>
+				</nav>
+			</div>
+
+			<!-- Row -->
+			<div class="row">
+
+				{% if current_user.status == 'freelancer' %}
+				<!-- Dashboard Box -->
+					{% if i_review %}
+						<div class="col-xl-6">
+							<div class="dashboard-box margin-top-0">
+
+								<!-- Headline -->
+								<div class="headline">
+									<h3><i class="icon-material-outline-face"></i> Reviewed as Freelancer</h3>
+								</div>
+
+								<div class="content">
+									<ul class="dashboard-box-list">
+										{% for rv in my_reviews %}
+											{% if not rv.rating %}
+												<li>
+													<div class="boxed-list-item">
+														<!-- Content -->
+														<div class="item-content">
+															<h4>{{ rv.reviewed }}</h4>
+															<span class="company-not-rated margin-bottom-5">Not yet reviewed</span>
+														</div>
+													</div>
+												</li>
+											{% else %}
+												<li>
+													<div class="boxed-list-item">
+														<!-- Content -->
+														<div class="item-content">
+															<h4>{{ rv.reviewed }}</h4>
+															<div class="item-details margin-top-10">
+																<div class="star-rating" data-rating="{{ rv.rating }}"></div>
+																<div class="detail-item"><i class="icon-feather-user"></i> {{ rv.reviewed_emp }}</div>
+															</div>
+															<div class="item-description">
+																<p>{{ rv.body }}</p>
+															</div>
+														</div>
+													</div>
+												</li>
+											{% endif %}
+										{% endfor %}
+									</ul>
+								</div>
+							</div>
+						</div>
+						<div class="col-xl-6">
+							<div class="dashboard-box margin-top-0">
+
+								<!-- Headline -->
+								<div class="headline">
+									<h3><i class="icon-material-outline-business"></i> Reviews as Employer</h3>
+								</div>
+
+								<div class="content">
+									<ul class="dashboard-box-list">
+										{% for rv in i_review %}
+											{% if not rv.rating %}
+												<li>
+													<div class="boxed-list-item">
+														<!-- Content -->
+														<div class="item-content">
+															<h4>{{ rv.reviewed }}</h4>
+															<span class="company-not-rated margin-bottom-5">Not yet reviewed</span>
+														</div>
+													</div>
+
+													<a href="#small-dialog-2" name="rate" data="{{ rv.id }}" class="popup-with-zoom-anim button ripple-effect margin-top-5 margin-bottom-10"><i class="icon-material-outline-thumb-up"></i> Review</a>
+												</li>
+											{% else %}
+												<li>
+													<div class="boxed-list-item">
+														<!-- Content -->
+														<div class="item-content">
+															<h4>{{ rv.reviewed }}</h4>
+															<div class="item-details margin-top-10">
+																<div class="star-rating" data-rating="{{ rv.rating }}"></div>
+																<div class="detail-item"><i class="icon-feather-user"></i> {{ rv.reviewed_pro }}</div>
+															</div>
+															<div class="item-description">
+																<p>{{ rv.body }}</p>
+															</div>
+														</div>
+													</div>
+												</li>
+											{% endif %}
+										{% endfor %}
+									</ul>
+								</div>
+							</div>
+						</div>
+					{% else %}
+						<div class="col-xl-12">
+							<div class="dashboard-box margin-top-0">
+
+								<!-- Headline -->
+								<div class="headline">
+									<h3><i class="icon-material-outline-business"></i> Reviews</h3>
+								</div>
+
+								<div class="content">
+									<ul class="dashboard-box-list">
+										{% for rv in my_reviews %}
+											{% if not rv.rating %}
+												<li>
+													<div class="boxed-list-item">
+														<!-- Content -->
+														<div class="item-content">
+															<h4>{{ rv.reviewed }}</h4>
+															<span class="company-not-rated margin-bottom-5">Not yet reviewed</span>
+														</div>
+													</div>
+												</li>
+											{% else %}
+												<li>
+													<div class="boxed-list-item">
+														<!-- Content -->
+														<div class="item-content">
+															<h4>{{ rv.reviewed }}</h4>
+															<div class="item-details margin-top-10">
+																<div class="star-rating" data-rating="{{ rv.rating }}"></div>
+																<div class="detail-item"><i class="icon-feather-user"></i> {{ rv.reviewed_emp }}</div>
+															</div>
+															<div class="item-description">
+																<p>{{ rv.body }}</p>
+															</div>
+														</div>
+													</div>
+												</li>
+											{% endif %}
+										{% endfor %}
+									</ul>
+								</div>
+							</div>
+						</div>
+					{% endif %}
+				{% else %}
+					<!-- Dashboard Box -->
+					<div class="col-xl-12">
+						<div class="dashboard-box margin-top-0">
+
+							<!-- Headline -->
+							<div class="headline">
+								<h3><i class="icon-material-outline-face"></i> Review</h3>
+							</div>
+
+							<div class="content">
+								<ul class="dashboard-box-list">
+									{% for rv in my_reviews %}
+										{% if not rv.rating %}
+											<li>
+												<div class="boxed-list-item">
+													<!-- Content -->
+													<div class="item-content">
+														<h4>{{ rv.reviewed }}</h4>
+														<span class="company-not-rated margin-bottom-5">Not reviewed yet</span>
+													</div>
+												</div>
+
+												<a href="#small-dialog-2" name="rate" data="{{ rv.id }}" class="popup-with-zoom-anim button ripple-effect margin-top-5 margin-bottom-10"><i class="icon-material-outline-thumb-up"></i> Review</a>
+											</li>
+										{% else %}
+											<li>
+												<div class="boxed-list-item">
+													<!-- Content -->
+													<div class="item-content">
+														<h4>{{ rv.reviewed }}</h4>
+														<div class="item-details margin-top-10">
+															<div class="star-rating" data-rating="{{ rv.rating }}"></div>
+															<div class="detail-item"><i class="icon-feather-user"></i> {{ rv.reviewed_pro }}</div>
+														</div>
+														<div class="item-description">
+															<p>{{ rv.body }}</p>
+														</div>
+													</div>
+												</div>
+											</li>
+										{% endif %}
+									{% endfor %}
+								</ul>
+							</div>
+						</div>
+					</div>
+				{% endif %}
+
+			</div>
+			<!-- Row / End -->
+
+			<!-- Footer -->
+			<div class="dashboard-footer-spacer"></div>
+			<div class="small-footer margin-top-15">
+				<div class="small-footer-copyrights">
+					© 2021 <strong>Jobby</strong>. All Rights Reserved.
+				</div>
+				<ul class="footer-social-links">
+					<li>
+						<a href="#" title="Facebook" data-tippy-placement="top">
+							<i class="icon-brand-facebook-f"></i>
+						</a>
+					</li>
+					<li>
+						<a href="#" title="Twitter" data-tippy-placement="top">
+							<i class="icon-brand-twitter"></i>
+						</a>
+					</li>
+					<li>
+						<a href="#" title="Google Plus" data-tippy-placement="top">
+							<i class="icon-brand-google-plus-g"></i>
+						</a>
+					</li>
+					<li>
+						<a href="#" title="LinkedIn" data-tippy-placement="top">
+							<i class="icon-brand-linkedin-in"></i>
+						</a>
+					</li>
+				</ul>
+				<div class="clearfix"></div>
+			</div>
+			<!-- Footer / End -->
+
+		</div>
+	</div>
+	<!-- Dashboard Content / End -->
+
+</div>
+<!-- Dashboard Container / End -->
+
+</div>
+<!-- Wrapper / End -->
+
+<!-- Leave a Review for Freelancer Popup
+================================================== -->
+<div id="small-dialog-2" class="zoom-anim-dialog mfp-hide dialog-with-tabs">
+
+	<!--Tabs -->
+	<div class="sign-in-form">
+
+		<ul class="popup-tabs-nav">
+			<li><a href="#tab2">Leave a Review</a></li>
+		</ul>
+
+		<div class="popup-tabs-container">
+
+			<!-- Tab -->
+			<div class="popup-tab-content" id="tab2">
+
+				<!-- Welcome Text -->
+				<div class="welcome-text">
+					<h3>Leave a Review</h3>
+					<span id="rateWho"></span>
+				</div>
+
+				<!-- Form -->
+				<form method="post" action="{{ url_for('manage.reviews') }}" id="leave-review-form">
+
+					<div class="feedback-yes-no">
+						<strong>Do you recommend this freelancer to others?</strong>
+						<div class="radio">
+							<input id="radio-1" name="radio" type="radio" required>
+							<label for="radio-1"><span class="radio-label"></span> Yes</label>
+						</div>
+
+						<div class="radio">
+							<input id="radio-2" name="radio" type="radio" required>
+							<label for="radio-2"><span class="radio-label"></span> No</label>
+						</div>
+					</div>
+
+					<div class="feedback-yes-no">
+						<strong>Was this delivered on time?</strong>
+						<div class="radio">
+							<input id="radio-3" name="radio2" type="radio" required>
+							<label for="radio-3"><span class="radio-label"></span> Yes</label>
+						</div>
+
+						<div class="radio">
+							<input id="radio-4" name="radio2" type="radio" required>
+							<label for="radio-4"><span class="radio-label"></span> No</label>
+						</div>
+					</div>
+
+					<div class="feedback-yes-no">
+						<strong>Your Rating?</strong>
+						<div class="leave-rating">
+							<input type="radio" name="rating" id="rating-radio-1" value="1" required>
+							<label for="rating-radio-1" class="icon-material-outline-star"></label>
+							<input type="radio" name="rating" id="rating-radio-2" value="2" required>
+							<label for="rating-radio-2" class="icon-material-outline-star"></label>
+							<input type="radio" name="rating" id="rating-radio-3" value="3" required>
+							<label for="rating-radio-3" class="icon-material-outline-star"></label>
+							<input type="radio" name="rating" id="rating-radio-4" value="4" required>
+							<label for="rating-radio-4" class="icon-material-outline-star"></label>
+							<input type="radio" name="rating" id="rating-radio-5" value="5" required>
+							<label for="rating-radio-5" class="icon-material-outline-star"></label>
+						</div><div class="clearfix"></div>
+					</div>
+					<input type='hidden' id="RadioValues" name="RadioValues" value=""/>
+					<textarea class="with-border" placeholder="Your Comment" name="comment" cols="7" required></textarea>
+
+				</form>
+
+				<!-- Button -->
+				<button class="button full-width button-sliding-icon ripple-effect" type="submit" form="leave-review-form">Leave a Review <i class="icon-material-outline-arrow-right-alt"></i></button>
+
+			</div>
+
+		</div>
+	</div>
+</div>
+<!-- Leave a Review Popup / End -->
+
+<!-- Scripts
+================================================== -->
+<script src="{{ url_for('static', filename='js/jquery-3.3.1.min.js')}}"></script>
+<script src="{{ url_for('static', filename='js/jquery-migrate-3.0.0.min.js')}}"></script>
+<script src="{{ url_for('static', filename='js/mmenu.min.js')}}"></script>
+<script src="{{ url_for('static', filename='js/tippy.all.min.js')}}"></script>
+<script src="{{ url_for('static', filename='js/simplebar.min.js')}}"></script>
+<script src="{{ url_for('static', filename='js/bootstrap-slider.min.js')}}"></script>
+<script src="{{ url_for('static', filename='js/bootstrap-select.min.js')}}"></script>
+<script src="{{ url_for('static', filename='js/snackbar.js')}}"></script>
+<script src="{{ url_for('static', filename='js/clipboard.min.js')}}"></script>
+<script src="{{ url_for('static', filename='js/counterup.min.js')}}"></script>
+<script src="{{ url_for('static', filename='js/magnific-popup.min.js')}}"></script>
+<script src="{{ url_for('static', filename='js/slick.min.js')}}"></script>
+<script src="{{ url_for('static', filename='js/custom.js')}}"></script>
+<script src="{{ url_for('static', filename='js/review.js')}}"></script>
+
+</body>
+</html>

@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="en">
+<head>
+
+<!-- Basic Page Needs
+================================================== -->
+<title>AnakutJob- Manage offers</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+<!-- CSS
+================================================== -->
+<link rel="stylesheet" href="/static/css/style.css?u={{ last_updated }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/colors/blue.css') }}">
+
+</head>
+<body class="gray">
+
+<!-- Wrapper -->
+<div id="wrapper">
+
+<!-- Header Container
+================================================== -->
+{% include 'header.html' %}
+<div class="clearfix"></div>
+<!-- Header Container / End -->
+
+
+<!-- Dashboard Container -->
+<div class="dashboard-container">
+
+	<!-- Dashboard Sidebar
+	================================================== -->
+	{% include 'sidebar.html' %}
+
+	<!-- Dashboard Sidebar / End -->
+
+	<div class="dashboard-content-container" data-simplebar>
+		<div class="dashboard-content-inner" >
+
+			<!-- Dashboard Headline -->
+			<div class="dashboard-headline">
+				<h3>Received Offers</h3>
+
+				<!-- Breadcrumbs -->
+				<nav id="breadcrumbs" class="dark">
+					<ul>
+						<li><a href="{{ url_for('public.index') }}">Home</a></li>
+						<li><a href="{{ url_for('manage.dashboard') }}">Dashboard</a></li>
+						<li>Received Offers</li>
+					</ul>
+				</nav>
+			</div>
+
+			<!-- Row -->
+			<div class="row">
+
+				<!-- Dashboard Box -->
+				<div class="col-xl-12">
+					<div class="dashboard-box margin-top-0">
+
+						<!-- Headline -->
+						<div class="headline">
+							<h3><i class="icon-material-outline-assignment"></i> Received Offers</h3>
+						</div>
+
+						<div class="content">
+							<ul class="dashboard-box-list">
+								{% for offer in offers %}
+									<li>
+										<!-- Overview -->
+										<div class="freelancer-overview manage-candidates">
+											<div class="freelancer-overview-inner">
+
+												<!-- Avatar -->
+												<div class="freelancer-avatar">
+													<div class="verified-badge"></div>
+													{% if offer.offers.status == 'freelancer' %}
+													<a href="{{ url_for('public.freelancer', user_id=offer.offers.id) }}"><img src="{{ url_for('static', filename='images/'+offer.offers.profile_picture) }}" alt=""></a>
+													{% else %}
+													<a href="#"><img src="{{ url_for('static', filename='images/'+offer.offers.profile_picture) }}" alt=""></a>
+													{% endif %}
+												</div>
+
+												<!-- Name -->
+												<div class="freelancer-name">
+													<h4><a href="{{ url_for('public.freelancer', user_id=offer.offers.id) }}">{{ offer.offers.get_full_name() }}</a></h4>
+
+													<!-- Details -->
+													<span class="freelancer-detail-item"><i class="icon-feather-mail"></i> {{ offer.offers.email }}</a></span>
+
+													<!-- Rating -->
+													{% if offer.offers.status == 'freelancer' %}
+														<div class="freelancer-rating">
+															<div class="star-rating" data-rating="{{ offer.offers.rating }}"></div>
+														</div>
+													{% endif %}
+
+													<div class="buttons-to-right always-visible margin-top-25 margin-bottom-0">
+														<a href="#small-dialog-1"  name="acceptOffer" data="{{offer.id}}" class="popup-with-zoom-anim button ripple-effect"><i class="icon-material-outline-check"></i> Accept</a>
+														<a href="#small-dialog-2" name="sendMessage" data="{{ offer.offers.id }}" class="popup-with-zoom-anim button dark ripple-effect"><i class="icon-feather-mail"></i> Send Message</a>
+														{% if offer.offeredTask %}
+														<a href="{{ url_for('public.task_page', task_url=offer.offeredTask.generate_task_link()) }}" class="popup-with-zoom-anim button dark ripple-effect"><i class="icon-feather-globe"></i> Project Details</a>
+														{% endif %}
+														{% if offer.filename %}
+															<a href="{{ url_for('manage.download', filename=offer.filename)}}" data="{{offer.filename}}" class="button ripple-effect"><i class="icon-feather-file-text"></i> Download file</a>
+														{% endif %}
+														<a href="#small-dialog" name="getmessage" data="o_{{ offer.id }}" class="popup-with-zoom-anim button dark ripple-effect ico" title="Offer Message" data-tippy-placement="top"><i class="icon-material-baseline-mail-outline"></i></a>
+													</div>
+
+												</div>
+											</div>
+										</div>
+									</li>
+								{% endfor %}
+							</ul>
+						</div>
+					</div>
+				</div>
+
+			</div>
+			<!-- Row / End -->
+
+			<!-- Footer -->
+			<div class="dashboard-footer-spacer"></div>
+			<div class="small-footer margin-top-15">
+				<div class="small-footer-copyrights">
+					© 2021 <strong>Jobby</strong>. All Rights Reserved.
+				</div>
+				<ul class="footer-social-links">
+					<li>
+						<a href="#" title="Facebook" data-tippy-placement="top">
+							<i class="icon-brand-facebook-f"></i>
+						</a>
+					</li>
+					<li>
+						<a href="#" title="Twitter" data-tippy-placement="top">
+							<i class="icon-brand-twitter"></i>
+						</a>
+					</li>
+					<li>
+						<a href="#" title="Google Plus" data-tippy-placement="top">
+							<i class="icon-brand-google-plus-g"></i>
+						</a>
+					</li>
+					<li>
+						<a href="#" title="LinkedIn" data-tippy-placement="top">
+							<i class="icon-brand-linkedin-in"></i>
+						</a>
+					</li>
+				</ul>
+				<div class="clearfix"></div>
+			</div>
+			<!-- Footer / End -->
+
+			<div id="small-dialog-1" class="zoom-anim-dialog mfp-hide dialog-with-tabs">
+
+				<!--Tabs -->
+				<div class="sign-in-form">
+
+					<ul class="popup-tabs-nav">
+						<li><a href="#tab1">Accept Offer</a></li>
+					</ul>
+
+					<div id="result" class="popup-tabs-container">
+
+						<!-- Tab -->
+						<div class="popup-tab-content" id="tab">
+
+							<!-- Welcome Text -->
+							<div class="welcome-text">
+								<h3 id="offer"></h3>
+							</div>
+
+							<!-- Button -->
+							<button id="acceptButton" class="margin-top-15 full-width button-sliding-icon ripple-effect" style="float: left; width:48% !important; height: 48px; background-color: green; color: white; border-radius: 4px;">Accept <i class="icon-material-outline-arrow-right-alt"></i></button>
+							<button id="rejectButton" class="margin-top-15 full-width button-sliding-icon ripple-effect" style="float: right; width: 48% !important; height: 48px; background-color: red; color: white; border-radius: 4px;">Reject <i class="icon-material-outline-arrow-right-alt"></i></button>
+
+						</div>
+
+					</div>
+				</div>
+			</div>
+			<!-- Bid Acceptance Popup / End -->
+
+
+			<!-- Send Direct Message Popup
+			================================================== -->
+			<div id="small-dialog" class="zoom-anim-dialog mfp-hide dialog-with-tabs">
+
+				<!--Tabs -->
+				<div class="sign-in-form">
+
+					<ul class="popup-tabs-nav">
+						<li><a href="#tab">Message</a></li>
+					</ul>
+					<div class="popup-tabs-container">
+						<div class="popup-tab-content" id="preMessage" style="text-align: center;"></div>
+					</div>
+				</div>
+			</div>
+			<div id="small-dialog-2" class="zoom-anim-dialog mfp-hide dialog-with-tabs">
+
+				<!--Tabs -->
+				<div class="sign-in-form">
+
+					<ul class="popup-tabs-nav">
+						<li><a href="#tab2">Send Message</a></li>
+					</ul>
+
+					<div class="popup-tabs-container">
+
+						<!-- Tab -->
+						<div class="popup-tab-content" id="tab2">
+
+							<!-- Welcome Text -->
+							<div class="welcome-text">
+								<h3 id="msgResult"></h3>
+							</div>
+							<p id="errorBody"></p>
+							<div id="formData">
+								<textarea id="body" cols="10" placeholder="Message" class="with-border" required></textarea>
+								<button id="sendButton" class="button full-width button-sliding-icon ripple-effect" type="submit" form="send-pm">Send <i class="icon-material-outline-arrow-right-alt"></i></button>
+							</div>
+
+						</div>
+
+					</div>
+				</div>
+			</div>
+			<!-- Send Direct Message Popup / End -->
+
+		</div>
+	</div>
+	<!-- Dashboard Content / End -->
+
+</div>
+<!-- Dashboard Container / End -->
+
+</div>
+<!-- Wrapper / End -->
+
+<!-- Scripts
+================================================== -->
+<script src="{{ url_for('static', filename='js/jquery-3.3.1.min.js')}}"></script>
+<script src="{{ url_for('static', filename='js/jquery-migrate-3.0.0.min.js')}}"></script>
+<script src="{{ url_for('static', filename='js/mmenu.min.js')}}"></script>
+<script src="{{ url_for('static', filename='js/tippy.all.min.js')}}"></script>
+<script src="{{ url_for('static', filename='js/simplebar.min.js')}}"></script>
+<script src="{{ url_for('static', filename='js/bootstrap-slider.min.js')}}"></script>
+<script src="{{ url_for('static', filename='js/bootstrap-select.min.js')}}"></script>
+<script src="{{ url_for('static', filename='js/snackbar.js')}}"></script>
+<script src="{{ url_for('static', filename='js/clipboard.min.js')}}"></script>
+<script src="{{ url_for('static', filename='js/counterup.min.js')}}"></script>
+<script src="{{ url_for('static', filename='js/magnific-popup.min.js')}}"></script>
+<script src="{{ url_for('static', filename='js/slick.min.js')}}"></script>
+<script src="{{ url_for('static', filename='js/custom.js')}}"></script>
+<script src="{{ url_for('static', filename='js/getMessage.js')}}"></script>
+<script src="{{ url_for('static', filename='js/instantMessaging.js')}}"></script>
+<script src="{{ url_for('static', filename='js/socket.io.min.js')}}"></script>
+<script src="{{ url_for('static', filename='js/acceptOffer.js')}}"></script>
+
+</body>
+</html>

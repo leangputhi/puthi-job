@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+<head>
+
+<!-- Basic Page Needs
+================================================== -->
+<title>AnakutJob - Manage Posted Projects</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+<!-- CSS
+================================================== -->
+<link rel="stylesheet" href="/static/css/style.css?u={{ last_updated }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/colors/blue.css') }}">
+
+</head>
+<body class="gray">
+
+<!-- Wrapper -->
+<div id="wrapper">
+
+<!-- Header Container
+================================================== -->
+{% include 'header.html' %}
+<div class="clearfix"></div>
+<!-- Header Container / End -->
+
+
+<!-- Dashboard Container -->
+<div class="dashboard-container">
+
+	<!-- Dashboard Sidebar
+	================================================== -->
+	{% include 'sidebar.html' %}
+
+	<!-- Dashboard Sidebar / End -->
+
+	<div class="dashboard-content-container" data-simplebar>
+		<div class="dashboard-content-inner" >
+
+			<!-- Dashboard Headline -->
+			<div class="dashboard-headline">
+				<h3>Manage Projects</h3>
+
+				<!-- Breadcrumbs -->
+				<nav id="breadcrumbs" class="dark">
+					<ul>
+						<li><a href="{{ url_for('public.index') }}">Home</a></li>
+						<li><a href="{{ url_for('manage.dashboard')}}">Dashboard</a></li>
+						<li>Manage Projects</li>
+					</ul>
+				</nav>
+			</div>
+
+			<!-- Row -->
+			<div class="row">
+
+				<!-- Dashboard Box -->
+				<div class="col-xl-12">
+					<div class="dashboard-box margin-top-0">
+
+						<!-- Headline -->
+						<div class="headline">
+							<h3><i class="icon-material-outline-assignment"></i> My Projects</h3>
+						</div>
+
+						<div class="content">
+							<ul class="dashboard-box-list">
+								{% for message in get_flashed_messages() %}
+									<div class="notification notice closeable">
+										<p>{{ message }}</p>
+										<a class="close" href="#"></a>
+									</div>
+								{% endfor %}
+								{% for task in tasks %}
+									<li>
+										<!-- Job Listing -->
+										<div class="job-listing width-adjustment">
+
+											<!-- Job Listing Details -->
+											<div class="job-listing-details">
+												<!-- Details -->
+												<div class="job-listing-description">
+													<h3 class="job-listing-title"><a href="{{ url_for('public.task_page', task_url=task.generate_task_link()) }}">{{ task.project_name }}</a></h3>
+													<!-- Job Listing Footer -->
+												</div>
+											</div>
+										</div>
+
+										<!-- Task Details -->
+										<ul class="dashboard-task-info">
+											<li><strong>{{ task.num_bids }}</strong><span>Num Bids</span></li>
+											<li><strong>{{ task.getAvarageBid() }} $</strong><span>Average Bid</span></li>
+											<li><strong>{{ task.budget_min }}$ - {{ task.budget_max }}$</strong><span>Budget</span></li>
+										</ul>
+										<!-- Buttons -->
+										<div class="buttons-to-right always-visible">
+											<a href="{{ url_for('manage.manageBidders', task_id=task.id) }}" class="button ripple-effect"><i class="icon-material-outline-supervisor-account"></i> Bidders <span class="button-info">{{ task.num_bids }}</span></a>
+										</div>
+									</li>
+								{% endfor %}
+							</ul>
+						</div>
+					</div>
+				</div>
+
+			</div>
+			<!-- Row / End -->
+
+			<!-- Footer -->
+			<div class="dashboard-footer-spacer"></div>
+			<div class="small-footer margin-top-15">
+				<div class="small-footer-copyrights">
+					© 2021 <strong>Jobby</strong>. All Rights Reserved.
+				</div>
+				<ul class="footer-social-links">
+					<li>
+						<a href="#" title="Facebook" data-tippy-placement="top">
+							<i class="icon-brand-facebook-f"></i>
+						</a>
+					</li>
+					<li>
+						<a href="#" title="Twitter" data-tippy-placement="top">
+							<i class="icon-brand-twitter"></i>
+						</a>
+					</li>
+					<li>
+						<a href="#" title="Google Plus" data-tippy-placement="top">
+							<i class="icon-brand-google-plus-g"></i>
+						</a>
+					</li>
+					<li>
+						<a href="#" title="LinkedIn" data-tippy-placement="top">
+							<i class="icon-brand-linkedin-in"></i>
+						</a>
+					</li>
+				</ul>
+				<div class="clearfix"></div>
+			</div>
+			<!-- Footer / End -->
+
+		</div>
+	</div>
+	<!-- Dashboard Content / End -->
+
+</div>
+<!-- Dashboard Container / End -->
+
+</div>
+<!-- Wrapper / End -->
+
+
+<!-- Scripts
+================================================== -->
+<script src="{{ url_for('static', filename='js/jquery-3.3.1.min.js')}}"></script>
+<script src="{{ url_for('static', filename='js/jquery-migrate-3.0.0.min.js')}}"></script>
+<script src="{{ url_for('static', filename='js/mmenu.min.js')}}"></script>
+<script src="{{ url_for('static', filename='js/tippy.all.min.js')}}"></script>
+<script src="{{ url_for('static', filename='js/simplebar.min.js')}}"></script>
+<script src="{{ url_for('static', filename='js/bootstrap-slider.min.js')}}"></script>
+<script src="{{ url_for('static', filename='js/bootstrap-select.min.js')}}"></script>
+<script src="{{ url_for('static', filename='js/snackbar.js')}}"></script>
+<script src="{{ url_for('static', filename='js/clipboard.min.js')}}"></script>
+<script src="{{ url_for('static', filename='js/counterup.min.js')}}"></script>
+<script src="{{ url_for('static', filename='js/magnific-popup.min.js')}}"></script>
+<script src="{{ url_for('static', filename='js/slick.min.js')}}"></script>
+<script src="{{ url_for('static', filename='js/custom.js')}}"></script>
+
+</body>
+</html>

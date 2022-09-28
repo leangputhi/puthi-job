@@ -1,0 +1,62 @@
+<!-- Navbar STart -->
+<header id="topnav" class="defaultscroll sticky">
+    <div class="container">
+        <!-- Logo container-->
+        <a class="logo" href="{{ url_for('public.index') }}">
+            <img src="{{ url_for('static', filename='images/jobby.png')}}" height="36" class="logo-light-mode" alt="">
+        </a>
+        <div class="buy-button">
+          {% if current_user.is_authenticated %}
+          <li class="list-inline-item mb-0" style="margin-right: 10px;">
+            <a href="{{ url_for('posttask.post_task') }}">
+              <div class="btn btn-outline-primary">Post Project</div>
+            </a>
+          </li>
+
+            <li class="list-inline-item mb-0">
+              <div class="dropdown dropdown-primary">
+                  <button type="button" class="btn btn-icon btn-soft-primary dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="uil uil-user align-middle icons"></i></button>
+                  <div class="dropdown-menu dd-menu dropdown-menu-end bg-white shadow rounded border-0 mt-3 py-3" style="width: 200px;">
+                      <a class="dropdown-item text-dark" href="{{ url_for('editProfile.editProfile_page') }}"><i class="uil uil-user align-middle me-1"></i> Edit Profile</a>
+                      {% if current_user.status == 'freelancer' %}
+                        <a class="dropdown-item text-dark" href="{{ url_for('manage.activeBids') }}"><i class="uil uil-clipboard-notes align-middle me-1"></i> Active Bids</a>
+                      {% else %}
+                        <a class="dropdown-item text-dark" href="{{ url_for('manage.manageTasks') }}"><i class="uil uil-clipboard-notes align-middle me-1"></i> Projects</a>
+                      {% endif %}
+                      <div class="dropdown-divider my-3 border-top"></div>
+                      <a class="dropdown-item text-dark" href="{{ url_for('account.logout') }}"><i class="uil uil-sign-out-alt align-middle me-1"></i> Logout</a>
+                  </div>
+              </div>
+            </li>
+          {% else %}
+            <a href="{{ url_for('account.signup') }}" class="btn btn-primary">Sign Up</a>
+          {% endif %}
+        </div><!--end login button-->
+        <!-- End Logo container-->
+        <div class="menu-extras">
+            <div class="menu-item">
+                <!-- Mobile menu toggle-->
+                <a class="navbar-toggle" id="isToggle" onclick="toggleMenu()">
+                    <div class="lines">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </a>
+                <!-- End mobile menu toggle-->
+            </div>
+        </div>
+
+        <div id="navigation">
+            <!-- Navigation Menu-->
+            <ul class="navigation-menu">
+                <li><a href="{{ url_for('public.browseTasks') }}" class="sub-menu-item">Projects</a></li>
+                <li><a href="{{ url_for('public.browseFreelancers') }}" class="sub-menu-item">Freelancers</a></li>
+                {% if current_user.is_authenticated %}
+                  <li><a href="{{ url_for('manage.dashboard') }}" class="sub-menu-item">Dashboard</a></li>
+                {% endif %}
+            </ul><!--end navigation menu-->
+        </div><!--end navigation-->
+    </div><!--end container-->
+</header><!--end header-->
+<!-- Navbar End -->

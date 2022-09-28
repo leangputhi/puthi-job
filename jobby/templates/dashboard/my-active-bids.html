@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="en">
+<head>
+
+<!-- Basic Page Needs
+================================================== -->
+<title>AnakutJob - Active Bids</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+<!-- CSS
+================================================== -->
+<link rel="stylesheet" href="/static/css/style.css?u={{ last_updated }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/colors/blue.css') }}">
+
+</head>
+<body class="gray">
+
+<!-- Wrapper -->
+<div id="wrapper">
+
+<!-- Header Container
+================================================== -->
+{% include 'header.html' %}
+
+<div class="clearfix"></div>
+<!-- Header Container / End -->
+
+
+<!-- Dashboard Container -->
+<div class="dashboard-container">
+
+	<!-- Dashboard Sidebar
+	================================================== -->
+	{% include 'sidebar.html' %}
+	<!-- Dashboard Sidebar / End -->
+
+
+	<!-- Dashboard Content
+	================================================== -->
+	<div class="dashboard-content-container" data-simplebar>
+		<div class="dashboard-content-inner" >
+
+			<!-- Dashboard Headline -->
+			<div class="dashboard-headline">
+				<h3>My Active Bids</h3>
+
+				<!-- Breadcrumbs -->
+				<nav id="breadcrumbs" class="dark">
+					<ul>
+						<li><a href="{{ url_for('public.index') }}">Home</a></li>
+						<li><a href="{{ url_for('manage.dashboard') }}">Dashboard</a></li>
+						<li>My Active Bids</li>
+					</ul>
+				</nav>
+			</div>
+
+			<!-- Row -->
+			<div class="row">
+
+				<!-- Dashboard Box -->
+				<div class="col-xl-12">
+					<div class="dashboard-box margin-top-0">
+
+						<!-- Headline -->
+						<div class="headline">
+							<h3><i class="icon-material-outline-gavel"></i> Bids List</h3>
+						</div>
+
+						<div class="content">
+							<ul class="dashboard-box-list">
+								{% for message in get_flashed_messages() %}
+								<div class="notification notice closeable">
+									<p>{{ message }}</p>
+									<a class="close" href="#"></a>
+								</div>
+								{% endfor %}
+
+								{% for bid in bids %}
+									{% if bid.bidded.winner == current_user %}
+										<li id="{{ bid.id }}">
+											<!-- Job Listing -->
+											<div class="job-listing width-adjustment">
+
+												<!-- Job Listing Details -->
+												<div class="job-listing-details">
+
+													<!-- Details -->
+													<div class="job-listing-description">
+														<h3 class="job-listing-title"><a href="{{ url_for('public.task_page', task_url=bid.bidded.generate_task_link()) }}">{{ bid.bidded }}</a></h3>
+													</div>
+												</div>
+											</div>
+
+											<!-- Task Details -->
+											<ul class="dashboard-task-info">
+												<li><strong>{{ bid.bid_amount }} $</strong><span>Bid Amount</span></li>
+												<li><strong>{{ bid.num_delivery }} {{ bid.type_delivery }}</strong><span>Finish Time</span></li>
+											</ul>
+
+											<!-- Buttons -->
+											<div class="buttons-to-right always-visible">
+												<a href="#small-dialog" name="getmessage" data="b_{{ bid.id }}" class="popup-with-zoom-anim button dark ripple-effect ico" title="Message" data-tippy-placement="top"><i class="icon-material-baseline-mail-outline"></i></a>
+												{% if current_user == bid.bidded.winner %}
+													<a class="button green ripple-effect ico" title="Won" data-tippy-placement="top" style="color: white;"><i class="icon-material-outline-check-circle"></i></a>
+												{% else %}
+													<a href="{{ url_for('manage.deleteBid', bid_id=bid.id) }}" class="button red ripple-effect ico" title="Delete Bid" data-tippy-placement="top"><i class="icon-feather-trash-2"></i></a>
+												{% endif %}
+											</div>
+										</li>
+									{% endif %}
+								{% endfor %}
+
+								{% for bid in bids %}
+									{% if bid.bidded.winner != current_user %}
+										<li id="{{ bid.id }}">
+											<!-- Job Listing -->
+											<div class="job-listing width-adjustment">
+
+												<!-- Job Listing Details -->
+												<div class="job-listing-details">
+
+													<!-- Details -->
+													<div class="job-listing-description">
+														<h3 class="job-listing-title"><a href="{{ url_for('public.task_page', task_url=bid.bidded.generate_task_link()) }}">{{ bid.bidded }}</a></h3>
+													</div>
+												</div>
+											</div>
+
+											<!-- Task Details -->
+											<ul class="dashboard-task-info">
+												<li><strong>{{ bid.bid_amount }} $</strong><span>Bid Amount</span></li>
+												<li><strong>{{ bid.num_delivery }} {{ bid.type_delivery }}</strong><span>Finish Time</span></li>
+											</ul>
+
+											<!-- Buttons -->
+											<div class="buttons-to-right always-visible">
+												<a href="#small-dialog" name="getmessage" data="b_{{ bid.id }}" class="popup-with-zoom-anim button dark ripple-effect ico" title="Message" data-tippy-placement="top"><i class="icon-material-baseline-mail-outline"></i></a>
+												{% if current_user == bid.bidded.winner %}
+													<a class="button green ripple-effect ico" title="Won" data-tippy-placement="top" style="color: white;"><i class="icon-material-outline-check-circle"></i></a>
+												{% else %}
+													<a href="{{ url_for('manage.deleteBid', bid_id=bid.id) }}" class="button red ripple-effect ico" title="Delete Bid" data-tippy-placement="top"><i class="icon-feather-trash-2"></i></a>
+												{% endif %}
+											</div>
+										</li>
+									{% endif %}
+								{% endfor %}
+
+							</ul>
+						</div>
+					</div>
+				</div>
+
+			</div>
+			<!-- Row / End -->
+
+			<!-- Footer -->
+			<div class="dashboard-footer-spacer"></div>
+			<div class="small-footer margin-top-15">
+				<div class="small-footer-copyrights">
+					© 2021 <strong>Jobby</strong>. All Rights Reserved.
+				</div>
+				<ul class="footer-social-links">
+					<li>
+						<a href="#" title="Facebook" data-tippy-placement="top">
+							<i class="icon-brand-facebook-f"></i>
+						</a>
+					</li>
+					<li>
+						<a href="#" title="Twitter" data-tippy-placement="top">
+							<i class="icon-brand-twitter"></i>
+						</a>
+					</li>
+					<li>
+						<a href="#" title="Google Plus" data-tippy-placement="top">
+							<i class="icon-brand-google-plus-g"></i>
+						</a>
+					</li>
+					<li>
+						<a href="#" title="LinkedIn" data-tippy-placement="top">
+							<i class="icon-brand-linkedin-in"></i>
+						</a>
+					</li>
+				</ul>
+				<div class="clearfix"></div>
+			</div>
+			<!-- Footer / End -->
+
+		</div>
+	</div>
+	<!-- Dashboard Content / End -->
+
+</div>
+<!-- Dashboard Container / End -->
+
+</div>
+<!-- Wrapper / End -->
+
+
+<!-- Edit Bid Popup
+================================================== -->
+<div id="small-dialog" class="zoom-anim-dialog mfp-hide dialog-with-tabs">
+
+	<!--Tabs -->
+	<div class="sign-in-form">
+
+		<ul class="popup-tabs-nav">
+			<li><a href="#tab">Message</a></li>
+		</ul>
+		<div class="popup-tabs-container">
+			<div class="popup-tab-content" id="preMessage" style="text-align: center;"></div>
+		</div>
+	</div>
+</div>
+<!-- Edit Bid Popup / End -->
+
+<!-- Scripts
+================================================== -->
+<script src="{{ url_for('static', filename='js/jquery-3.3.1.min.js')}}"></script>
+<script src="{{ url_for('static', filename='js/jquery-migrate-3.0.0.min.js')}}"></script>
+<script src="{{ url_for('static', filename='js/mmenu.min.js')}}"></script>
+<script src="{{ url_for('static', filename='js/tippy.all.min.js')}}"></script>
+<script src="{{ url_for('static', filename='js/simplebar.min.js')}}"></script>
+<script src="{{ url_for('static', filename='js/bootstrap-slider.min.js')}}"></script>
+<script src="{{ url_for('static', filename='js/bootstrap-select.min.js')}}"></script>
+<script src="{{ url_for('static', filename='js/snackbar.js')}}"></script>
+<script src="{{ url_for('static', filename='js/clipboard.min.js')}}"></script>
+<script src="{{ url_for('static', filename='js/counterup.min.js')}}"></script>
+<script src="{{ url_for('static', filename='js/magnific-popup.min.js')}}"></script>
+<script src="{{ url_for('static', filename='js/slick.min.js')}}"></script>
+<script src="{{ url_for('static', filename='js/custom.js')}}"></script>
+<script src="{{ url_for('static', filename='js/getMessage.js')}}"></script>
+
+</body>
+</html>

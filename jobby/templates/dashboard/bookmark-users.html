@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+<head>
+
+<!-- Basic Page Needs
+================================================== -->
+<title>AnakutJob - Bookmarked Freelancers</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+<!-- CSS
+================================================== -->
+<link rel="stylesheet" href="/static/css/style.css?u={{ last_updated }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/colors/blue.css') }}">
+
+</head>
+<body class="gray">
+
+<!-- Wrapper -->
+<div id="wrapper">
+
+<!-- Header Container
+================================================== -->
+{% include 'header.html' %}
+<div class="clearfix"></div>
+<!-- Header Container / End -->
+
+<!-- Dashboard Container -->
+<div class="dashboard-container">
+
+	<!-- Dashboard Sidebar
+	================================================== -->
+	{% include 'sidebar.html' %}
+	<!-- Dashboard Sidebar / End -->
+
+	<!-- Dashboard Content
+	================================================== -->
+	<div class="dashboard-content-container" data-simplebar>
+		<div class="dashboard-content-inner" >
+
+			<!-- Dashboard Headline -->
+			<div class="dashboard-headline">
+				<h3>Bookmarked Freelancers</h3>
+
+				<!-- Breadcrumbs -->
+				<nav id="breadcrumbs" class="dark">
+					<ul>
+						<li><a href="{{ url_for('public.index') }}">Home</a></li>
+						<li><a href="{{ url_for('manage.dashboard') }}">Dashboard</a></li>
+						<li>Bookmarked Freelancers</li>
+					</ul>
+				</nav>
+			</div>
+
+			<!-- Row -->
+			<div class="row">
+
+				<!-- Dashboard Box -->
+				<div class="col-xl-12">
+					<div class="dashboard-box margin-top-0">
+
+						<!-- Headline -->
+						<div class="headline">
+							<h3><i class="icon-material-outline-business-center"></i> Bookmarked Freelancers</h3>
+						</div>
+
+						<div class="content">
+							<ul class="dashboard-box-list">
+								{% for user in bookmarked_users %}
+								<li id="{{ user.id }}">
+									<!-- Overview -->
+									<div class="freelancer-overview">
+										<div class="freelancer-overview-inner">
+
+											<!-- Avatar -->
+											<div class="freelancer-avatar">
+												<div class="verified-badge"></div>
+												<a href="{{ url_for('public.freelancer', user_id=user.id) }}"><img src="{{ url_for('static', filename='images/'+user.profile_picture) }}" alt=""></a>
+											</div>
+
+											<!-- Name -->
+											<div class="freelancer-name">
+												<h4><a href="{{ url_for('public.freelancer', user_id=user.id) }}">{{ user }}</a></h4>
+												<span>{{ user.tagline }}</span>
+												<!-- Rating -->
+												<div class="freelancer-rating">
+													<div class="star-rating" data-rating="4.2"></div>
+												</div>
+											</div>
+										</div>
+									</div>
+
+									<!-- Buttons -->
+									<div data="{{ user.id }}" data-type="1" class="buttons-to-right deleteBookmark">
+										<a href="#" class="button red ripple-effect ico" title="Delete" data-tippy-placement="left"><i class="icon-feather-trash-2"></i></a>
+									</div>
+								</li>
+								{% endfor %}
+
+							</ul>
+						</div>
+					</div>
+				</div>
+
+				<!-- Dashboard Box -->
+			</div>
+			<!-- Row / End -->
+
+			<!-- Footer -->
+			<div class="dashboard-footer-spacer"></div>
+			<div class="small-footer margin-top-15">
+				<div class="small-footer-copyrights">
+					© 2021 <strong>Jobby</strong>. All Rights Reserved.
+				</div>
+				<ul class="footer-social-links">
+					<li>
+						<a href="#" title="Facebook" data-tippy-placement="top">
+							<i class="icon-brand-facebook-f"></i>
+						</a>
+					</li>
+					<li>
+						<a href="#" title="Twitter" data-tippy-placement="top">
+							<i class="icon-brand-twitter"></i>
+						</a>
+					</li>
+					<li>
+						<a href="#" title="Google Plus" data-tippy-placement="top">
+							<i class="icon-brand-google-plus-g"></i>
+						</a>
+					</li>
+					<li>
+						<a href="#" title="LinkedIn" data-tippy-placement="top">
+							<i class="icon-brand-linkedin-in"></i>
+						</a>
+					</li>
+				</ul>
+				<div class="clearfix"></div>
+			</div>
+			<!-- Footer / End -->
+
+		</div>
+	</div>
+	<!-- Dashboard Content / End -->
+
+</div>
+<!-- Dashboard Container / End -->
+
+</div>
+<!-- Wrapper / End -->
+
+<!-- Scripts
+================================================== -->
+<script src="{{ url_for('static', filename='js/jquery-3.3.1.min.js')}}"></script>
+<script src="{{ url_for('static', filename='js/jquery-migrate-3.0.0.min.js')}}"></script>
+<script src="{{ url_for('static', filename='js/mmenu.min.js')}}"></script>
+<script src="{{ url_for('static', filename='js/tippy.all.min.js')}}"></script>
+<script src="{{ url_for('static', filename='js/simplebar.min.js')}}"></script>
+<script src="{{ url_for('static', filename='js/bootstrap-slider.min.js')}}"></script>
+<script src="{{ url_for('static', filename='js/bootstrap-select.min.js')}}"></script>
+<script src="{{ url_for('static', filename='js/snackbar.js')}}"></script>
+<script src="{{ url_for('static', filename='js/clipboard.min.js')}}"></script>
+<script src="{{ url_for('static', filename='js/counterup.min.js')}}"></script>
+<script src="{{ url_for('static', filename='js/magnific-popup.min.js')}}"></script>
+<script src="{{ url_for('static', filename='js/slick.min.js')}}"></script>
+<script src="{{ url_for('static', filename='js/custom.js')}}"></script>
+
+</body>
+</html>
